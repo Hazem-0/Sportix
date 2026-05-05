@@ -105,6 +105,9 @@
 		5128EB3F2FAA179B003FD4F6 /* Sportix */ = {
 			isa = PBXGroup;
 			children = (
+				C7556C952FAA42E900F9A536 /* Utils */,
+				C7556C942FAA42CF00F9A536 /* Presentation  */,
+				C7556C932FAA429E00F9A536 /* Data */,
 				5128EB402FAA179B003FD4F6 /* AppDelegate.swift */,
 				5128EB422FAA179B003FD4F6 /* SceneDelegate.swift */,
 				5128EB442FAA179B003FD4F6 /* ViewController.swift */,
@@ -132,6 +135,59 @@
 				5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */,
 			);
 			path = SportixUITests;
+			sourceTree = "<group>";
+		};
+		C7556C932FAA429E00F9A536 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C7556C982FAA435D00F9A536 /* Core Data */,
+				C7556C972FAA431100F9A536 /* Network */,
+				C7556C962FAA430300F9A536 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C7556C942FAA42CF00F9A536 /* Presentation  */ = {
+			isa = PBXGroup;
+			children = (
+				C7556C992FAA456400F9A536 /* Scene */,
+			);
+			path = "Presentation ";
+			sourceTree = "<group>";
+		};
+		C7556C952FAA42E900F9A536 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C7556C962FAA430300F9A536 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C7556C972FAA431100F9A536 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C7556C982FAA435D00F9A536 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		C7556C992FAA456400F9A536 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Scene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
