@@ -17,6 +17,8 @@
 		5128EB5B2FAA179D003FD4F6 /* SportixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB5A2FAA179D003FD4F6 /* SportixTests.swift */; };
 		5128EB652FAA179D003FD4F6 /* SportixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB642FAA179D003FD4F6 /* SportixUITests.swift */; };
 		5128EB672FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */; };
+		5128EB752FAA1B8F003FD4F6 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5128EB742FAA1B8F003FD4F6 /* SDWebImage */; };
+		5128EB772FAA1B8F003FD4F6 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5128EB772FAA1B8F003FD4F6 /* SDWebImageMapKit in Frameworks */,
+				5128EB752FAA1B8F003FD4F6 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +150,10 @@
 			dependencies = (
 			);
 			name = Sportix;
+			packageProductDependencies = (
+				5128EB742FAA1B8F003FD4F6 /* SDWebImage */,
+				5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */,
+			);
 			productName = Sportix;
 			productReference = 5128EB3D2FAA179B003FD4F6 /* Sportix.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +226,9 @@
 				Base,
 			);
 			mainGroup = 5128EB342FAA179B003FD4F6;
+			packageReferences = (
+				5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = 5128EB3E2FAA179B003FD4F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -602,6 +613,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = exactVersion;
+				version = 5.15.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5128EB742FAA1B8F003FD4F6 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		5128EB492FAA179B003FD4F6 /* Sportix.xcdatamodeld */ = {
