@@ -19,6 +19,8 @@
 		5128EB672FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */; };
 		5128EB752FAA1B8F003FD4F6 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5128EB742FAA1B8F003FD4F6 /* SDWebImage */; };
 		5128EB772FAA1B8F003FD4F6 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */; };
+		C74531772FAA73BE00E492B1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C74531762FAA73BE00E492B1 /* Alamofire */; };
+		C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745317E2FAA75AD00E492B1 /* AppTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,7 @@
 		5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5128EB642FAA179D003FD4F6 /* SportixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITests.swift; sourceTree = "<group>"; };
 		5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C745317E2FAA75AD00E492B1 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C74531772FAA73BE00E492B1 /* Alamofire in Frameworks */,
 				5128EB772FAA1B8F003FD4F6 /* SDWebImageMapKit in Frameworks */,
 				5128EB752FAA1B8F003FD4F6 /* SDWebImage in Frameworks */,
 			);
@@ -137,6 +141,48 @@
 			path = SportixUITests;
 			sourceTree = "<group>";
 		};
+		C74531782FAA752800E492B1 /* Sports */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sports;
+			sourceTree = "<group>";
+		};
+		C74531792FAA754400E492B1 /* Leagues */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Leagues;
+			sourceTree = "<group>";
+		};
+		C745317A2FAA755000E492B1 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		C745317B2FAA755C00E492B1 /* LeagueDetails */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LeagueDetails;
+			sourceTree = "<group>";
+		};
+		C745317C2FAA756900E492B1 /* TeamDetails */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TeamDetails;
+			sourceTree = "<group>";
+		};
+		C745317D2FAA757800E492B1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		C7556C932FAA429E00F9A536 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,7 +196,7 @@
 		C7556C942FAA42CF00F9A536 /* Presentation  */ = {
 			isa = PBXGroup;
 			children = (
-				C7556C992FAA456400F9A536 /* Scene */,
+				C7556C992FAA456400F9A536 /* Scenes */,
 			);
 			path = "Presentation ";
 			sourceTree = "<group>";
@@ -158,6 +204,7 @@
 		C7556C952FAA42E900F9A536 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C745317E2FAA75AD00E492B1 /* AppTheme.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -183,11 +230,17 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
-		C7556C992FAA456400F9A536 /* Scene */ = {
+		C7556C992FAA456400F9A536 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				C745317D2FAA757800E492B1 /* Onboarding */,
+				C745317C2FAA756900E492B1 /* TeamDetails */,
+				C745317B2FAA755C00E492B1 /* LeagueDetails */,
+				C745317A2FAA755000E492B1 /* Favorites */,
+				C74531792FAA754400E492B1 /* Leagues */,
+				C74531782FAA752800E492B1 /* Sports */,
 			);
-			path = Scene;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +262,7 @@
 			packageProductDependencies = (
 				5128EB742FAA1B8F003FD4F6 /* SDWebImage */,
 				5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */,
+				C74531762FAA73BE00E492B1 /* Alamofire */,
 			);
 			productName = Sportix;
 			productReference = 5128EB3D2FAA179B003FD4F6 /* Sportix.app */;
@@ -284,6 +338,7 @@
 			mainGroup = 5128EB342FAA179B003FD4F6;
 			packageReferences = (
 				5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				C74531752FAA73BE00E492B1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 5128EB3E2FAA179B003FD4F6 /* Products */;
 			projectDirPath = "";
@@ -332,6 +387,7 @@
 				5128EB4B2FAA179B003FD4F6 /* Sportix.xcdatamodeld in Sources */,
 				5128EB412FAA179B003FD4F6 /* AppDelegate.swift in Sources */,
 				5128EB432FAA179B003FD4F6 /* SceneDelegate.swift in Sources */,
+				C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,6 +735,14 @@
 				version = 5.15.0;
 			};
 		};
+		C74531752FAA73BE00E492B1 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -691,6 +755,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5128EB732FAA1B8F003FD4F6 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		C74531762FAA73BE00E492B1 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C74531752FAA73BE00E492B1 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 
