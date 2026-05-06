@@ -21,6 +21,13 @@
 		5128EB772FAA1B8F003FD4F6 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5128EB762FAA1B8F003FD4F6 /* SDWebImageMapKit */; };
 		C74531772FAA73BE00E492B1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C74531762FAA73BE00E492B1 /* Alamofire */; };
 		C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745317E2FAA75AD00E492B1 /* AppTheme.swift */; };
+		C74531812FAA7E2200E492B1 /* OnboardingSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531802FAA7E2200E492B1 /* OnboardingSlide.swift */; };
+		C74531852FAA7E7900E492B1 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */; };
+		C74531872FAA82F200E492B1 /* OnboardingContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531862FAA82F200E492B1 /* OnboardingContentViewController.swift */; };
+		C74531892FAA830D00E492B1 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531882FAA830D00E492B1 /* OnboardingViewController.swift */; };
+		C7A596972FAB45EC00CB6E89 /* AppSettingsLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A596962FAB45E800CB6E89 /* AppSettingsLocalDataSource.swift */; };
+		C7A5969F2FAB4A9500CB6E89 /* AppRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5969E2FAB4A9500CB6E89 /* AppRepository.swift */; };
+		C7A596A12FAB4CC300CB6E89 /* AppRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A596A02FAB4CC300CB6E89 /* AppRepositoryProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +63,13 @@
 		5128EB642FAA179D003FD4F6 /* SportixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITests.swift; sourceTree = "<group>"; };
 		5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C745317E2FAA75AD00E492B1 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		C74531802FAA7E2200E492B1 /* OnboardingSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlide.swift; sourceTree = "<group>"; };
+		C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
+		C74531862FAA82F200E492B1 /* OnboardingContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentViewController.swift; sourceTree = "<group>"; };
+		C74531882FAA830D00E492B1 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		C7A596962FAB45E800CB6E89 /* AppSettingsLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsLocalDataSource.swift; sourceTree = "<group>"; };
+		C7A5969E2FAB4A9500CB6E89 /* AppRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepository.swift; sourceTree = "<group>"; };
+		C7A596A02FAB4CC300CB6E89 /* AppRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRepositoryProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +123,7 @@
 		5128EB3F2FAA179B003FD4F6 /* Sportix */ = {
 			isa = PBXGroup;
 			children = (
+				C7A5969C2FAB478E00CB6E89 /* Domain */,
 				C7556C952FAA42E900F9A536 /* Utils */,
 				C7556C942FAA42CF00F9A536 /* Presentation  */,
 				C7556C932FAA429E00F9A536 /* Data */,
@@ -179,16 +194,38 @@
 		C745317D2FAA757800E492B1 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				C74531832FAA7E5D00E492B1 /* Presenter */,
+				C74531822FAA7E5200E492B1 /* View */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C74531822FAA7E5200E492B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C74531862FAA82F200E492B1 /* OnboardingContentViewController.swift */,
+				C74531882FAA830D00E492B1 /* OnboardingViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C74531832FAA7E5D00E492B1 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		C7556C932FAA429E00F9A536 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C7A5969B2FAB476100CB6E89 /* Mappers */,
+				C7A5969A2FAB474900CB6E89 /* Repositories */,
+				C7A596982FAB470C00CB6E89 /* Remote */,
+				C7A596922FAB425A00CB6E89 /* Local */,
 				C7556C982FAA435D00F9A536 /* Core Data */,
 				C7556C972FAA431100F9A536 /* Network */,
-				C7556C962FAA430300F9A536 /* Models */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -212,6 +249,7 @@
 		C7556C962FAA430300F9A536 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C74531802FAA7E2200E492B1 /* OnboardingSlide.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -241,6 +279,77 @@
 				C74531782FAA752800E492B1 /* Sports */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		C7A596922FAB425A00CB6E89 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				C7A596952FAB430800CB6E89 /* Entities */,
+				C7A596932FAB42BD00CB6E89 /* UserDefaults */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		C7A596932FAB42BD00CB6E89 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				C7A596962FAB45E800CB6E89 /* AppSettingsLocalDataSource.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		C7A596952FAB430800CB6E89 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		C7A596982FAB470C00CB6E89 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				C7A596992FAB472800CB6E89 /* Models */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		C7A596992FAB472800CB6E89 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C7A5969A2FAB474900CB6E89 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5969E2FAB4A9500CB6E89 /* AppRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		C7A5969B2FAB476100CB6E89 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		C7A5969C2FAB478E00CB6E89 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5969D2FAB47DE00CB6E89 /* Repositories */,
+				C7556C962FAA430300F9A536 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		C7A5969D2FAB47DE00CB6E89 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C7A596A02FAB4CC300CB6E89 /* AppRepositoryProtocol.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,8 +494,15 @@
 			files = (
 				5128EB452FAA179B003FD4F6 /* ViewController.swift in Sources */,
 				5128EB4B2FAA179B003FD4F6 /* Sportix.xcdatamodeld in Sources */,
+				C7A596972FAB45EC00CB6E89 /* AppSettingsLocalDataSource.swift in Sources */,
 				5128EB412FAA179B003FD4F6 /* AppDelegate.swift in Sources */,
 				5128EB432FAA179B003FD4F6 /* SceneDelegate.swift in Sources */,
+				C7A596A12FAB4CC300CB6E89 /* AppRepositoryProtocol.swift in Sources */,
+				C74531852FAA7E7900E492B1 /* OnboardingPresenter.swift in Sources */,
+				C74531872FAA82F200E492B1 /* OnboardingContentViewController.swift in Sources */,
+				C74531812FAA7E2200E492B1 /* OnboardingSlide.swift in Sources */,
+				C7A5969F2FAB4A9500CB6E89 /* AppRepository.swift in Sources */,
+				C74531892FAA830D00E492B1 /* OnboardingViewController.swift in Sources */,
 				C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
