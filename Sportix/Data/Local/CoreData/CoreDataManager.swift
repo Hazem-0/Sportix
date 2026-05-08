@@ -39,7 +39,7 @@ class CoreDataManager {
     
     func fetchAllFavorites() -> [FavLeague] {
         let fetchRequest: NSFetchRequest<FavLeague> = FavLeague.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateAdded", ascending: false)]
+      
         
         do {
             let entities = try context.fetch(fetchRequest)

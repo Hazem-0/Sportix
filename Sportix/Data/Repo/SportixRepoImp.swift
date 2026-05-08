@@ -39,7 +39,15 @@ private let coreData: CoreDataManager
         
         func getAllFavoriteLeagues() -> [League] {
             // until coding mapper
-            return [League(id: 1, name: "", sport: .Football, country: "", badge: "")]
+            if(coreData.fetchAllFavorites().isEmpty){
+            return [League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
+    ]
+            }
+            let leagues = coreData.fetchAllFavorites().map{
+                entity in
+                return entity.toLeague()
+            }
+            return leagues
         }
         
         func removeFavLeague(id: Int) {

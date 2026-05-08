@@ -7,30 +7,33 @@
 
 import UIKit
 
-class FavoriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol FavoritesView: AnyObject {
+    func showFavorites(_ leagues: [League])
+    func showEmptyState()
+    func navigateToDetails(for league: League)
+}
+
+class FavoriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FavoritesView{
     
     @IBOutlet weak var emptyStateImage: UIImageView!
     @IBOutlet weak var emptyStateText: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    // 1. Change this to an array of League objects
-    var favoriteLeagues: [League] = [
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-        League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-        , League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-        , League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-        , League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-        , League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-    ]
+    var presenter: FavoritesPresenter!
+    var favoriteLeagues: [League] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter = FavoritesPresenterImp(view: self)
         setupTableView()
-        updateView()
+        presenter.viewDidLoad()
+        
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
     func setupTableView() {
@@ -42,14 +45,26 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.separatorStyle = .none
     }
     
-    func updateView() {
-        let hasFavorites = !favoriteLeagues.isEmpty
-        tableView.isHidden = !hasFavorites
-        emptyStateText.isHidden = hasFavorites
-        emptyStateImage.isHidden = hasFavorites
+    func showFavorites(_ leagues: [League]) {
+        self.favoriteLeagues = leagues
+        tableView.isHidden = false
+        emptyStateText.isHidden = true
+        emptyStateImage.isHidden = true
+        tableView.reloadData()
     }
     
-    @IBAction func browseSportsTapped(_ sender: UIButton) { }
+    func showEmptyState() {
+        self.favoriteLeagues = []
+        tableView.isHidden = true
+        emptyStateText.isHidden = false
+        emptyStateImage.isHidden = false
+        tableView.reloadData()
+    }
+    
+    func navigateToDetails(for league: League) {
+        
+    }
+    
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteLeagues.count
@@ -60,7 +75,6 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
             return UITableViewCell()
         }
         
-        // 2. Pass the League object to the config function!
         let league = favoriteLeagues[indexPath.row]
         cell.congifg(league: league)
         
@@ -70,4 +84,15 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            presenter.deleteLeague(at: indexPath.row)
+        }
+    }
+    
+    
+    
+    
 }

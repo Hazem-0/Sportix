@@ -22,7 +22,7 @@ class FavoriteCell: UITableViewCell {
         favImage.layer.borderColor = UIColor.systemGray5.cgColor
     }
     
-    // Add this function: It calculates the circle AFTER the cell is sized
+
     override func layoutSubviews() {
         super.layoutSubviews()
         favImage.layer.cornerRadius = favImage.frame.size.height / 2

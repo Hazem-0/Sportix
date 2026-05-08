@@ -27,6 +27,7 @@
 		513C31592FAE28C5008B1D96 /* FavoritesPresnter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C31582FAE28C5008B1D96 /* FavoritesPresnter.swift */; };
 		513C31602FAE2909008B1D96 /* LeaguesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C315F2FAE2909008B1D96 /* LeaguesPresenter.swift */; };
 		513C31682FAE294D008B1D96 /* SportsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513C31672FAE294D008B1D96 /* SportsPresenter.swift */; };
+		5178F9922FAE9D6A0004FEDD /* FavEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */; };
 		517E57A02FABBB2E00A9D2ED /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E579F2FABBB2E00A9D2ED /* League.swift */; };
 		517E57A22FABBB6A00A9D2ED /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E57A12FABBB6A00A9D2ED /* Sport.swift */; };
 		517E57A42FABBC2700A9D2ED /* SportixRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E57A32FABBC2700A9D2ED /* SportixRepo.swift */; };
@@ -81,8 +82,12 @@
 		513C31582FAE28C5008B1D96 /* FavoritesPresnter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPresnter.swift; sourceTree = "<group>"; };
 		513C315F2FAE2909008B1D96 /* LeaguesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesPresenter.swift; sourceTree = "<group>"; };
 		513C31672FAE294D008B1D96 /* SportsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsPresenter.swift; sourceTree = "<group>"; };
-		513C316B2FAE29BD008B1D96 /* .gitkeep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = .gitkeep.swift; sourceTree = "<group>"; };
 		513C316D2FAE29D3008B1D96 /* .gitkeep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = .gitkeep.swift; sourceTree = "<group>"; };
+		5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavEntity+Mapping.swift"; sourceTree = "<group>"; };
+		5178F9932FAEA0420004FEDD /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
+		5178F9942FAEA0550004FEDD /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
+		5178F9952FAEA07E0004FEDD /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
+		5178F9962FAEA08C0004FEDD /* Empty.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Empty.md; sourceTree = "<group>"; };
 		517E579F2FABBB2E00A9D2ED /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		517E57A12FABBB6A00A9D2ED /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		517E57A32FABBC2700A9D2ED /* SportixRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixRepo.swift; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 		513C31462FAE27A8008B1D96 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5178F9962FAEA08C0004FEDD /* Empty.md */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -214,6 +220,7 @@
 		513C314D2FAE2830008B1D96 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5178F9952FAEA07E0004FEDD /* Empty.md */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -239,6 +246,7 @@
 		513C315D2FAE28F0008B1D96 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5178F9942FAEA0550004FEDD /* Empty.md */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -254,6 +262,7 @@
 		513C31652FAE293A008B1D96 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5178F9932FAEA0420004FEDD /* Empty.md */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -448,7 +457,7 @@
 		C7A5969B2FAB476100CB6E89 /* Mapper */ = {
 			isa = PBXGroup;
 			children = (
-				513C316B2FAE29BD008B1D96 /* .gitkeep.swift */,
+				5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -596,6 +605,7 @@
 			files = (
 				51CB57312FAE5E1000D4338B /* FavoriteViewController.swift in Sources */,
 				517E57A02FABBB2E00A9D2ED /* League.swift in Sources */,
+				5178F9922FAE9D6A0004FEDD /* FavEntity+Mapping.swift in Sources */,
 				5128EB452FAA179B003FD4F6 /* ViewController.swift in Sources */,
 				C7A596972FAB45EC00CB6E89 /* AppSettingsLocalDataSource.swift in Sources */,
 				513C31512FAE285E008B1D96 /* LeagueDetailsPresenter.swift in Sources */,
