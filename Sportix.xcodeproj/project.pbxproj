@@ -30,6 +30,9 @@
 		517E57A02FABBB2E00A9D2ED /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E579F2FABBB2E00A9D2ED /* League.swift */; };
 		517E57A22FABBB6A00A9D2ED /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E57A12FABBB6A00A9D2ED /* Sport.swift */; };
 		517E57A42FABBC2700A9D2ED /* SportixRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E57A32FABBC2700A9D2ED /* SportixRepo.swift */; };
+		51CB572E2FAE4BD700D4338B /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB572C2FAE4BD700D4338B /* FavoriteCell.swift */; };
+		51CB572F2FAE4BD700D4338B /* FavoriteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51CB572D2FAE4BD700D4338B /* FavoriteCell.xib */; };
+		51CB57312FAE5E1000D4338B /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB57302FAE5E1000D4338B /* FavoriteViewController.swift */; };
 		C74531772FAA73BE00E492B1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C74531762FAA73BE00E492B1 /* Alamofire */; };
 		C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745317E2FAA75AD00E492B1 /* AppTheme.swift */; };
 		C74531852FAA7E7900E492B1 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */; };
@@ -83,6 +86,9 @@
 		517E579F2FABBB2E00A9D2ED /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		517E57A12FABBB6A00A9D2ED /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		517E57A32FABBC2700A9D2ED /* SportixRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixRepo.swift; sourceTree = "<group>"; };
+		51CB572C2FAE4BD700D4338B /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		51CB572D2FAE4BD700D4338B /* FavoriteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCell.xib; sourceTree = "<group>"; };
+		51CB57302FAE5E1000D4338B /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		C745317E2FAA75AD00E492B1 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		C74531862FAA82F200E492B1 /* OnboardingContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +221,9 @@
 		513C31542FAE289F008B1D96 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				51CB572D2FAE4BD700D4338B /* FavoriteCell.xib */,
+				51CB572C2FAE4BD700D4338B /* FavoriteCell.swift */,
+				51CB57302FAE5E1000D4338B /* FavoriteViewController.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -558,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5128EB502FAA179D003FD4F6 /* LaunchScreen.storyboard in Resources */,
+				51CB572F2FAE4BD700D4338B /* FavoriteCell.xib in Resources */,
 				5128EB4D2FAA179D003FD4F6 /* Assets.xcassets in Resources */,
 				5128EB482FAA179B003FD4F6 /* Main.storyboard in Resources */,
 			);
@@ -584,11 +594,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51CB57312FAE5E1000D4338B /* FavoriteViewController.swift in Sources */,
 				517E57A02FABBB2E00A9D2ED /* League.swift in Sources */,
 				5128EB452FAA179B003FD4F6 /* ViewController.swift in Sources */,
 				C7A596972FAB45EC00CB6E89 /* AppSettingsLocalDataSource.swift in Sources */,
 				513C31512FAE285E008B1D96 /* LeagueDetailsPresenter.swift in Sources */,
 				513C31442FAE2682008B1D96 /* CoreDataManager.swift in Sources */,
+				51CB572E2FAE4BD700D4338B /* FavoriteCell.swift in Sources */,
 				5128EB412FAA179B003FD4F6 /* AppDelegate.swift in Sources */,
 				513C31602FAE2909008B1D96 /* LeaguesPresenter.swift in Sources */,
 				513C31452FAE2685008B1D96 /* Sportix.xcdatamodeld in Sources */,
