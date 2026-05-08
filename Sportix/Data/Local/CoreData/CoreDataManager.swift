@@ -18,7 +18,7 @@ class CoreDataManager {
     
     private init() {}
     
-    func saveFavorite(_ league: League) {
+    func saveFavorite(league: League) {
         // Alaa code
     }
     

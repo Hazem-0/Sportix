@@ -7,12 +7,13 @@
 
 import Foundation
 
-protocol SportsRepo {
+protocol SportixRepo {
     
     func saveFavLeague(league : League)
     func getAllFavoriteLeagues() -> [League]
     func removeFavLeague (id : Int)
     func isLeagueFavorite(id :Int ) -> Bool
-    
+    func hasSeenOnboarding() -> Bool
+    func markOnboardingAsSeen()
     
 }

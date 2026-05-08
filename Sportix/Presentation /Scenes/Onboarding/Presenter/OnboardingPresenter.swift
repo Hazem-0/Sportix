@@ -22,7 +22,7 @@ final class OnboardingPresenter {
 
     weak var view: OnboardingViewProtocol?
 
-    private let appRepository: AppRepositoryProtocol
+    private let appRepository: SportixRepo
     private var currentIndex = 0
 
     private let slides: [OnboardingSlide] = [
@@ -43,7 +43,7 @@ final class OnboardingPresenter {
         )
     ]
 
-    init(appRepository: AppRepositoryProtocol) {
+    init(appRepository: SportixRepo) {
         self.appRepository = appRepository
     }
 

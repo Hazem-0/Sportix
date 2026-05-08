@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let appRepository: AppRepositoryProtocol = AppRepository()
+        let appRepository: SportixRepo = SportixRepoImp()
 
         if appRepository.hasSeenOnboarding() {
             let tabBarController = storyboard.instantiateViewController(

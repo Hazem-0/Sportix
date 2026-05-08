@@ -9,7 +9,7 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController {
 
-    private let appRepository: AppRepositoryProtocol = AppRepository()
+    private let appRepository: SportixRepo = SportixRepoImp()
 
     private lazy var presenter: OnboardingPresenter = {
         let presenter = OnboardingPresenter(
