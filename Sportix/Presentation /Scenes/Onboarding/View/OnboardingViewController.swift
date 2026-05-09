@@ -55,7 +55,7 @@ final class OnboardingViewController: UIPageViewController {
         dataSource = self
         delegate = self
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = AppTheme.Colors.background
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 

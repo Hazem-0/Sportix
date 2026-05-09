@@ -12,6 +12,9 @@ enum AppTheme {
     enum Colors {
         // Main app color
         static let primary = UIColor.systemBlue
+        
+        // Text on primary buttons
+        static let onPrimary = UIColor.white
 
         // Screen backgrounds
         static let background = UIColor.systemBackground
@@ -25,6 +28,9 @@ enum AppTheme {
 
         // Borders / separators
         static let border = UIColor.separator
+        
+        // Page control
+        static let pageIndicator = UIColor.systemGray4
         
         // Favorite star
         static let favorite = UIColor.systemYellow

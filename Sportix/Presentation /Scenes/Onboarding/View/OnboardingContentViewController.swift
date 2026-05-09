@@ -45,34 +45,29 @@ final class OnboardingContentViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = .systemBackground
-
-        heroImageView.contentMode = .scaleAspectFill
-        heroImageView.clipsToBounds = true
-
-        gradientOverlayView.backgroundColor = .clear
+        view.backgroundColor = AppTheme.Colors.background
 
         titleLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-        titleLabel.textColor = .label
+        titleLabel.textColor = AppTheme.Colors.textPrimary
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
         descriptionLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        descriptionLabel.textColor = .secondaryLabel
+        descriptionLabel.textColor = AppTheme.Colors.textSecondary
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
 
         pageControl.numberOfPages = totalPages
         pageControl.currentPage = pageIndex
-        pageControl.currentPageIndicatorTintColor = .systemBlue
-        pageControl.pageIndicatorTintColor = .systemGray4
+        pageControl.currentPageIndicatorTintColor = AppTheme.Colors.primary
+        pageControl.pageIndicatorTintColor = AppTheme.Colors.pageIndicator
 
-        actionButton.backgroundColor = .systemBlue
-        actionButton.setTitleColor(.white, for: .normal)
+        actionButton.backgroundColor = AppTheme.Colors.primary
+        actionButton.setTitleColor(AppTheme.Colors.onPrimary, for: .normal)
         actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
 
         skipButton.setTitle("Skip", for: .normal)
-        skipButton.setTitleColor(.systemBlue, for: .normal)
+        skipButton.setTitleColor(AppTheme.Colors.onPrimary, for: .normal)
         skipButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
     }
 
@@ -94,7 +89,7 @@ final class OnboardingContentViewController: UIViewController {
 
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor.systemBackground.cgColor
+            AppTheme.Colors.background.cgColor
         ]
 
         gradientLayer.locations = [0.0, 1.0]
