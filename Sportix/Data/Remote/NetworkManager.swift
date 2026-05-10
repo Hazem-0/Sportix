@@ -28,12 +28,28 @@ final class NetworkManager {
         }
     }
 
+
     func fetchSports() async throws -> [SportResponse] {
         []
     }
 
-    func fetchLeagues(sport: String) async throws -> [LeagueResponse] {
-        []
+    func fetchLeagues(sport: Sport) async throws -> [LeagueResponse] {
+        let endpoint = LeaguesEndpoint(sport: sport)
+        
+        let response = try await request(
+            endpoint: endpoint,
+            model: SportsResponse<[LeagueResponse]>.self
+        )
+        
+        guard response.success == 1 else {
+            throw NetworkError.serverError(response.error ?? "Failed to fetch leagues.")
+        }
+        
+        guard let leagues = response.result else {
+            throw NetworkError.emptyData
+        }
+        
+        return leagues
     }
 
     func fetchUpcomingFixtures(sport: String, leagueId: Int) async throws -> [FixtureResponse] {

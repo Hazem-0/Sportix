@@ -15,5 +15,6 @@ protocol SportixRepo {
     func isLeagueFavorite(id :Int ) -> Bool
     func hasSeenOnboarding() -> Bool
     func markOnboardingAsSeen()
+    func getLeagues(for sport: Sport) async throws -> [League]
     
 }
