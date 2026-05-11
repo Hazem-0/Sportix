@@ -19,7 +19,21 @@ class CoreDataManager {
     private init() {}
     
     func saveFavorite(league: League) {
-        // Alaa code
+       
+        if isFavorite(leagueId: league.id) {
+            print("League already exists in favorites")
+            return
+        }
+        
+        _ = league.toEntity(in: context)
+        
+        do {
+            try context.save()
+            print("League saved to favorites successfully")
+        } catch {
+            context.rollback()
+            print("Failed to save favorite: \(error)")
+        }
     }
     
     func removeFavorite(leagueId: Int) {
@@ -51,7 +65,19 @@ class CoreDataManager {
     }
 
     func isFavorite(leagueId: Int) -> Bool {
-        // Alaa Code
-        return false
+
+        let fetchRequest: NSFetchRequest<FavLeague> = FavLeague.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %lld", Int64(leagueId))
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+            
+        } catch {
+            print("Failed to check favorite: \(error)")
+            return false
+            
+        }
     }
 }
