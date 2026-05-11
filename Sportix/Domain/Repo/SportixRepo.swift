@@ -10,6 +10,7 @@ import Foundation
 protocol SportixRepo {
     func hasSeenOnboarding() -> Bool
     func markOnboardingAsSeen()
+    func getLeagues(for sport: Sport) async throws -> [League]
     
     func saveFavLeague(league: League)
     func getAllFavoriteLeagues() -> [League]
