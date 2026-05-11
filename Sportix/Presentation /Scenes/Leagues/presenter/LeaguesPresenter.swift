@@ -35,13 +35,13 @@ final class LeaguesPresenter {
 
         case .Football:
             return [
-                League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "badge_premier_league"),
-                League(id: 2, name: "La Liga", sport: .Football, country: "Spain", badge: "badge_laliga"),
-                League(id: 3, name: "Serie A", sport: .Football, country: "Italy", badge: "badge_serie_a"),
-                League(id: 4, name: "Bundesliga", sport: .Football, country: "Germany", badge: "badge_bundesliga"),
-                League(id: 5, name: "Ligue 1", sport: .Football, country: "France", badge: "badge_ligue1"),
-                League(id: 6, name: "MLS", sport: .Football, country: "USA", badge: "badge_mls"),
-                League(id: 7, name: "Champions League", sport: .Football, country: "Europe", badge: "badge_champions_league")
+                League(id: 152, name: "Premier League", sport: .Football, country: "England", badge: "badge_premier_league"),
+                League(id: 207, name: "La Liga", sport: .Football, country: "Spain", badge: "badge_laliga"),
+                League(id: 205, name: "Serie A", sport: .Football, country: "Italy", badge: "badge_serie_a"),
+                League(id: 175, name: "Bundesliga", sport: .Football, country: "Germany", badge: "badge_bundesliga"),
+                League(id: 168, name: "Ligue 1", sport: .Football, country: "France", badge: "badge_ligue1"),
+                League(id: 332, name: "MLS", sport: .Football, country: "USA", badge: "badge_mls"),
+                League(id: 3, name: "Champions League", sport: .Football, country: "Europe", badge: "badge_champions_league")
             ]
 
         case .BasketBall:

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct SportsResonse<T: Decodable>: Decodable {
+struct SportixResonse<T: Decodable>: Decodable {
     let success: Int?
     let result: T?
 }

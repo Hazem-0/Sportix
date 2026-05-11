@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct TeamResponse: Decodable {
     let team_key: Int?
     let team_name: String?

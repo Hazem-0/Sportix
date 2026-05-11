@@ -135,7 +135,18 @@ extension LeaguesViewController {
         didSelectRowAt indexPath: IndexPath
     ) {
         let selectedLeague = leagues[indexPath.row]
-        print("Selected League:", selectedLeague.name)
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
+            let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
+            detailsVC.sport = self.sport
+            detailsVC.leagueId = selectedLeague.id
+            navigationController?.pushViewController(detailsVC, animated: true)
+            return
+        }
+        
+        detailsVC.sport = self.sport
+        detailsVC.leagueId = selectedLeague.id
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

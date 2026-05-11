@@ -11,17 +11,30 @@ import Alamofire
 final class NetworkManager {
 
     static let shared = NetworkManager()
+    
     private init() {}
 
     func request<T: Decodable>(endpoint: NetworkEndpoint, model: T.Type) async throws -> T {
+        let baseURL = API.baseURL.hasSuffix("/") ? API.baseURL : API.baseURL + "/"
+        let cleanPath = endpoint.path.hasPrefix("/") ? String(endpoint.path.dropFirst()) : endpoint.path
+        let finalURL = baseURL + cleanPath
+        
+        print("🌐 Requesting URL: \(finalURL) | Params: \(endpoint.parameters)")
+        
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(API.baseURL + endpoint.path, parameters: endpoint.parameters)
+            AF.request(finalURL, parameters: endpoint.parameters)
                 .validate()
                 .responseDecodable(of: T.self) { response in
+                    
+                    if let data = response.data, let jsonString = String(data: data, encoding: .utf8) {
+                        print("RAW JSON for \(endpoint.path): \n\(jsonString.prefix(1000))...")
+                    }
+
                     switch response.result {
                     case .success(let value):
                         continuation.resume(returning: value)
                     case .failure(let error):
+                        print("Network Error: \(error.localizedDescription)")
                         continuation.resume(throwing: error)
                     }
                 }
@@ -29,22 +42,34 @@ final class NetworkManager {
     }
 
     func fetchSports() async throws -> [SportResponse] {
-        []
+        return []
     }
 
     func fetchLeagues(sport: String) async throws -> [LeagueResponse] {
-        []
+        return []
     }
 
     func fetchUpcomingFixtures(sport: String, leagueId: Int) async throws -> [FixtureResponse] {
-        []
+        let res = try await request(
+            endpoint: FixturesEndpoint(sport: sport.lowercased(), leagueId: leagueId, upcoming: true),
+            model: SportixResonse<[FixtureResponse]>.self
+        )
+        return res.result ?? []
     }
-
+    
     func fetchPastFixtures(sport: String, leagueId: Int) async throws -> [FixtureResponse] {
-         []
+        let res = try await request(
+            endpoint: FixturesEndpoint(sport: sport.lowercased(), leagueId: leagueId, upcoming: false),
+            model: SportixResonse<[FixtureResponse]>.self
+        )
+        return res.result ?? []
     }
 
     func fetchTeams(sport: String, leagueId: Int) async throws -> [TeamResponse] {
-         []
+        let res = try await request(
+            endpoint: TeamsEndpoint(sport: sport.lowercased(), leagueId: leagueId),
+            model: SportixResonse<[TeamResponse]>.self
+        )
+        return res.result ?? []
     }
 }
