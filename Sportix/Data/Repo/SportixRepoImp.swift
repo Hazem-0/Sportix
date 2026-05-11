@@ -7,15 +7,19 @@
 
 import Foundation
 
-class SportixRepoImp : SportixRepo{
+class SportixRepoImp: SportixRepo {
+    
     
   
+   
     
-private let appSettings: AppSettingsLocalDataSourceProtocol
-private let coreData: CoreDataManager
-private let networkManager: NetworkManager
-
-        
+   
+    
+    
+    private let appSettings: AppSettingsLocalDataSourceProtocol
+    private let coreData: CoreDataManager
+    private let networkManager: NetworkManager
+    
     init(
         appSettings: AppSettingsLocalDataSourceProtocol = AppSettingsLocalDataSource(),
         coreData: CoreDataManager = CoreDataManager.shared,
@@ -25,6 +29,7 @@ private let networkManager: NetworkManager
         self.coreData = coreData
         self.networkManager = networkManager
     }
+    
         
         
     func hasSeenOnboarding() -> Bool {
@@ -42,16 +47,13 @@ private let networkManager: NetworkManager
     }
     
     func getAllFavoriteLeagues() -> [League] {
-        // until coding mapper
-        if(coreData.fetchAllFavorites().isEmpty){
-        return [League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png"),
-]
+        let entities = coreData.fetchAllFavorites()
+        if entities.isEmpty {
+            return [
+                League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
+            ]
         }
-        let leagues = coreData.fetchAllFavorites().map{
-            entity in
-            return entity.toLeague()
-        }
-        return leagues
+        return entities.map { $0.toLeague() }
     }
     
     func removeFavLeague(id: Int) {
@@ -59,18 +61,31 @@ private let networkManager: NetworkManager
     }
     
     func isLeagueFavorite(id: Int) -> Bool {
-        coreData.isFavorite(leagueId: id)
+       return true
     }
-    
     
     func getLeagues(for sport: Sport) async throws -> [League] {
         let leagueResponses = try await networkManager.fetchLeagues(sport: sport)
-         
-        let leagues = leagueResponses.compactMap { response in
-            response.toLeague(sport: sport)
-        }
-         
-        return leagues
+
+                let leagues = leagueResponses.compactMap { response in
+                    response.toLeague(sport: sport)
+                }
+
+                return leagues
+    }
+    
+    func fetchUpcomingFixtures(sport: Sport, leagueId: Int) async throws -> [Fixture] {
+        let responses = try await networkManager.fetchUpcomingFixtures(sport: sport.displayName, leagueId: leagueId)
+        return responses.map { $0.toDomain() }
+    }
+    
+    func fetchPastFixtures(sport: Sport, leagueId: Int) async throws -> [Fixture] {
+        let responses = try await networkManager.fetchPastFixtures(sport: sport.displayName, leagueId: leagueId)
+        return responses.map { $0.toDomain() }
+    }
+    
+    func fetchTeams(sport: Sport, leagueId: Int) async throws -> [TeamDetails] {
+        let responses = try await networkManager.fetchTeams(sport: sport.displayName, leagueId: leagueId)
+        return responses.map { $0.toDomain() }
     }
 }
-
