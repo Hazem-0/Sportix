@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		510492D82FB20ABE00BE7687 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 510492D72FB20ABD00BE7687 /* Config.xcconfig */; };
 		5128EB412FAA179B003FD4F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB402FAA179B003FD4F6 /* AppDelegate.swift */; };
 		5128EB432FAA179B003FD4F6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB422FAA179B003FD4F6 /* SceneDelegate.swift */; };
 		5128EB452FAA179B003FD4F6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EB442FAA179B003FD4F6 /* ViewController.swift */; };
@@ -102,6 +103,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		510492D72FB20ABD00BE7687 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = "../../../../../Volumes/VMware Shared Folders/PC/Config.xcconfig"; sourceTree = "<group>"; };
 		5128EB3D2FAA179B003FD4F6 /* Sportix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sportix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5128EB402FAA179B003FD4F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5128EB422FAA179B003FD4F6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +133,6 @@
 		517231CB2FB0BEF600EBD954 /* EndpointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
 		517231CD2FB0BF1E00EBD954 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		517231CF2FB0BF9C00EBD954 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		517231D12FB0C43300EBD954 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavEntity+Mapping.swift"; sourceTree = "<group>"; };
 		517E579F2FABBB2E00A9D2ED /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		517E57A12FABBB6A00A9D2ED /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
@@ -160,7 +161,7 @@
 		C74531882FAA830D00E492B1 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		C7552FAC2FB0ED70009A55C3 /* Sport+APIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sport+APIPath.swift"; sourceTree = "<group>"; };
 		C7552FAE2FB0EDC6009A55C3 /* LeaguesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesEndpoint.swift; sourceTree = "<group>"; };
-		C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LeagueResponse+Mapping.swift"; sourceTree = "<group>"; };
+		C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LeagueResponse+Mapping.swift"; path = "Sportix/Data/Mapper/LeagueResponse+Mapping.swift"; sourceTree = "<group>"; };
 		C7552FB22FB0EF24009A55C3 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C77536012FAF2B73007DCF8A /* SportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsViewController.swift; sourceTree = "<group>"; };
 		C77536042FAF2D06007DCF8A /* SportCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SportCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -209,6 +210,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		510492D62FB209B900BE7687 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		5128EB342FAA179B003FD4F6 = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +225,7 @@
 				5128EB592FAA179D003FD4F6 /* SportixTests */,
 				5128EB632FAA179D003FD4F6 /* SportixUITests */,
 				5128EB3E2FAA179B003FD4F6 /* Products */,
+				510492D62FB209B900BE7687 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,7 +253,7 @@
 				5128EB4C2FAA179D003FD4F6 /* Assets.xcassets */,
 				5128EB4E2FAA179D003FD4F6 /* LaunchScreen.storyboard */,
 				5128EB512FAA179D003FD4F6 /* Info.plist */,
-				517231D12FB0C43300EBD954 /* Config.xcconfig */,
+				510492D72FB20ABD00BE7687 /* Config.xcconfig */,
 			);
 			path = Sportix;
 			sourceTree = "<group>";
@@ -745,6 +755,7 @@
 				C77536062FAF2D06007DCF8A /* SportCollectionViewCell.xib in Resources */,
 				51E5B1012FB163F50041342D /* LatestEventCell.xib in Resources */,
 				51E5B1052FB166400041342D /* TeamCell.xib in Resources */,
+				510492D82FB20ABE00BE7687 /* Config.xcconfig in Resources */,
 				5128EB502FAA179D003FD4F6 /* LaunchScreen.storyboard in Resources */,
 				C79302F42FAF75E1004A0F90 /* LeagueTableViewCell.xib in Resources */,
 				51CB572F2FAE4BD700D4338B /* FavoriteCell.xib in Resources */,
@@ -890,7 +901,6 @@
 /* Begin XCBuildConfiguration section */
 		5128EB682FAA179D003FD4F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 517231D12FB0C43300EBD954 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				API_KEY = cdc758adbafc87c001d1c416d754d79b361fce76177f3742b737b4824a256048;
@@ -953,7 +963,6 @@
 		};
 		5128EB692FAA179D003FD4F6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 517231D12FB0C43300EBD954 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				API_KEY = cdc758adbafc87c001d1c416d754d79b361fce76177f3742b737b4824a256048;
@@ -1010,7 +1019,6 @@
 		};
 		5128EB6B2FAA179D003FD4F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 517231D12FB0C43300EBD954 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1038,7 +1046,6 @@
 		};
 		5128EB6C2FAA179D003FD4F6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 517231D12FB0C43300EBD954 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

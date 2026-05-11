@@ -142,12 +142,19 @@ extension LeaguesViewController: LeaguesViewProtocol {
     }
     
     func navigateToLeagueDetails(leagueId: Int, leagueName: String, sport: Sport) {
-        print("Navigate to league details")
-        print("League ID:", leagueId)
-        print("League Name:", leagueName)
-        print("Sport:", sport)
-        
-        // MARK: LeaguDetailsViewController
+       
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
+                    let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
+                    detailsVC.sport = self.sport
+                    detailsVC.leagueId = leagueId
+                    navigationController?.pushViewController(detailsVC, animated: true)
+                    return
+                }
+
+                detailsVC.sport = self.sport
+                detailsVC.leagueId = leagueId
+                navigationController?.pushViewController(detailsVC, animated: true)
         
     }
 }

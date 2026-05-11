@@ -15,7 +15,9 @@ extension LeagueResponse {
             sport: sport,
             country: self.country_name ?? "Unknown Country",
             badge: self.league_logo ?? "sportscourt.circle"
-    
+            )
+    }
+        
     func toLeague(sport: Sport) -> League? {
         guard let id = league_key,
               let name = league_name,
@@ -31,4 +33,5 @@ extension LeagueResponse {
             badge: league_logo ?? ""
         )
     }
+
 }

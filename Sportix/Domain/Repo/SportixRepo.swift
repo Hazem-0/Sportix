@@ -17,7 +17,6 @@ protocol SportixRepo {
     func removeFavLeague(id: Int)
     func isLeagueFavorite(id: Int) -> Bool
     
-    func fetchLeagues(sport: Sport) async throws -> [League]
     func fetchUpcomingFixtures(sport: Sport, leagueId: Int) async throws -> [Fixture]
     func fetchPastFixtures(sport: Sport, leagueId: Int) async throws -> [Fixture]
     func fetchTeams(sport: Sport, leagueId: Int) async throws -> [TeamDetails]

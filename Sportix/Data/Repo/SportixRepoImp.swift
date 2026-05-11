@@ -9,6 +9,13 @@ import Foundation
 
 class SportixRepoImp: SportixRepo {
     
+    
+  
+   
+    
+   
+    
+    
     private let appSettings: AppSettingsLocalDataSourceProtocol
     private let coreData: CoreDataManager
     private let networkManager: NetworkManager
@@ -54,12 +61,17 @@ class SportixRepoImp: SportixRepo {
     }
     
     func isLeagueFavorite(id: Int) -> Bool {
-        coreData.isFavorite(leagueId: id)
+       return true
     }
     
-    func fetchLeagues(sport: Sport) async throws -> [League] {
-        let responses = try await networkManager.fetchLeagues(sport: sport.displayName)
-        return responses.map { $0.toDomain(sport: sport) }
+    func getLeagues(for sport: Sport) async throws -> [League] {
+        let leagueResponses = try await networkManager.fetchLeagues(sport: sport)
+
+                let leagues = leagueResponses.compactMap { response in
+                    response.toLeague(sport: sport)
+                }
+
+                return leagues
     }
     
     func fetchUpcomingFixtures(sport: Sport, leagueId: Int) async throws -> [Fixture] {

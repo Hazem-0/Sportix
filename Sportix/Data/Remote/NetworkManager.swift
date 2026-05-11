@@ -51,7 +51,7 @@ final class NetworkManager {
         
         let response = try await request(
             endpoint: endpoint,
-            model: SportsResponse<[LeagueResponse]>.self
+            model: SportixResponse<[LeagueResponse]>.self
         )
         
         guard response.success == 1 else {
@@ -68,7 +68,7 @@ final class NetworkManager {
     func fetchUpcomingFixtures(sport: String, leagueId: Int) async throws -> [FixtureResponse] {
         let res = try await request(
             endpoint: FixturesEndpoint(sport: sport.lowercased(), leagueId: leagueId, upcoming: true),
-            model: SportixResonse<[FixtureResponse]>.self
+            model: SportixResponse<[FixtureResponse]>.self
         )
         return res.result ?? []
     }
@@ -76,7 +76,7 @@ final class NetworkManager {
     func fetchPastFixtures(sport: String, leagueId: Int) async throws -> [FixtureResponse] {
         let res = try await request(
             endpoint: FixturesEndpoint(sport: sport.lowercased(), leagueId: leagueId, upcoming: false),
-            model: SportixResonse<[FixtureResponse]>.self
+            model: SportixResponse<[FixtureResponse]>.self
         )
         return res.result ?? []
     }
@@ -84,7 +84,7 @@ final class NetworkManager {
     func fetchTeams(sport: String, leagueId: Int) async throws -> [TeamResponse] {
         let res = try await request(
             endpoint: TeamsEndpoint(sport: sport.lowercased(), leagueId: leagueId),
-            model: SportixResonse<[TeamResponse]>.self
+            model: SportixResponse<[TeamResponse]>.self
         )
         return res.result ?? []
     }
