@@ -9,28 +9,88 @@ import XCTest
 @testable import Sportix
 
 class SportixTests: XCTestCase {
+    
+    var networkObj: NetworkManager!
 
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        networkObj = NetworkManager.shared
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        networkObj = nil
     }
+    
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+  // MARK: - Success Tests
+  
+  func testFetchLeaguesFromApi() {
+      let ex = expectation(description: "load leagues from api")
+      
+      Task {
+          do {
+              let leagues = try await networkObj.fetchLeagues(sport: .Football)
+              
+              XCTAssertNotNil(leagues)
+              XCTAssertGreaterThanOrEqual(leagues.count, 0)
+              
+          } catch {
+              XCTFail("Expected success but got error: \(error)")
+          }
+          
+          ex.fulfill()
+      }
+      
+      waitForExpectations(timeout: 10)
+  }
+  
+  
+  
+  func testFetchTeamDetailsFromApi() {
+      let ex = expectation(description: "load team details from api")
+      
+      Task {
+          do {
+              let team = try await networkObj.fetchTeamDetails(
+                  sport: .Football,
+                  teamId: 2611
+              )
+              
+              XCTAssertNotNil(team)
+              
+          } catch {
+              XCTFail("Expected success but got error: \(error)")
+          }
+          
+          ex.fulfill()
+      }
+      
+      waitForExpectations(timeout: 10)
+  }
+  
+  // MARK: - Failure Tests
+  
+  
+  func testFetchTeamDetailsFromApi_Failure() {
+      let ex = expectation(description: "load team details failure from api")
+      
+      Task {
+          do {
+              let _ = try await networkObj.fetchTeamDetails(
+                  sport: .Football,
+                  teamId: -1
+              )
+              
+              XCTFail("Should fail with invalid team id")
+              
+          } catch {
+              XCTAssertNotNil(error)
+          }
+          
+          ex.fulfill()
+      }
+      
+      waitForExpectations(timeout: 10)
+  }
 }
+

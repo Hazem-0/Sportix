@@ -7,6 +7,15 @@
 
 import UIKit
 
+
+protocol TeamDetailsViewProtocol: AnyObject {
+    func showLoading()
+    func hideLoading()
+
+    func reloadData()
+    func showErrorMessage(_ message: String)
+}
+
 final class TeamDetailsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -14,8 +23,7 @@ final class TeamDetailsViewController: UIViewController {
     var sport: Sport!
     var teamId: Int!
 
-    private var presenter: TeamDetailsPresenter!
-    private var team: TeamDetails?
+    private var presenter: TeamDetailsPresenterProtocol!
     private var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
@@ -24,24 +32,30 @@ final class TeamDetailsViewController: UIViewController {
         setupUI()
         setupTableView()
         setupLoadingIndicator()
-        setupPresenter()
+
+        guard setupPresenter() else {
+            return
+        }
 
         presenter.viewDidLoad()
     }
 
-    private func setupPresenter() {
+    private func setupPresenter() -> Bool {
         guard let sport = sport,
               let teamId = teamId else {
             showErrorMessage("Team data is missing.")
-            return
+            return false
         }
 
-        presenter = TeamDetailsPresenter(
+        let presenter = TeamDetailsPresenter(
             sport: sport,
             teamId: teamId
         )
 
         presenter.view = self
+        self.presenter = presenter
+
+        return true
     }
 
     private func setupUI() {
@@ -147,6 +161,7 @@ final class TeamDetailsViewController: UIViewController {
 extension TeamDetailsViewController: TeamDetailsViewProtocol {
 
     func showLoading() {
+        hideTableBackgroundMessage()
         activityIndicator.startAnimating()
         tableView.isHidden = true
     }
@@ -156,14 +171,12 @@ extension TeamDetailsViewController: TeamDetailsViewProtocol {
         tableView.isHidden = false
     }
 
-    func showTeamDetails(_ team: TeamDetails) {
-        self.team = team
+    func reloadData() {
         hideTableBackgroundMessage()
         tableView.reloadData()
     }
 
     func showErrorMessage(_ message: String) {
-        self.team = nil
         tableView.reloadData()
         showMessageInTableBackground(message)
     }
@@ -173,22 +186,14 @@ extension TeamDetailsViewController: TeamDetailsViewProtocol {
 extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return team == nil ? 0 : 2
+        return presenter.getNumberOfSections()
     }
 
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        guard let team = team else {
-            return 0
-        }
-
-        if section == 0 {
-            return 1
-        }
-
-        return team.players.count + 1
+        return presenter.getNumberOfRows(in: section)
     }
 
     func tableView(
@@ -196,15 +201,15 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
 
-        guard let team = team else {
-            return UITableViewCell()
-        }
-
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: TeamHeaderTableViewCell.identifier,
                 for: indexPath
             ) as? TeamHeaderTableViewCell else {
+                return UITableViewCell()
+            }
+
+            guard let team = presenter.getTeamDetails() else {
                 return UITableViewCell()
             }
 
@@ -230,7 +235,10 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
             return UITableViewCell()
         }
 
-        let player = team.players[indexPath.row - 1]
+        guard let player = presenter.getPlayer(at: indexPath.row) else {
+            return UITableViewCell()
+        }
+
         cell.configure(with: player)
 
         return cell
@@ -255,13 +263,9 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        guard indexPath.section == 1,
-              indexPath.row > 0,
-              let team = team else {
-            return
-        }
-
-        let selectedPlayer = team.players[indexPath.row - 1]
-        print("Selected player:", selectedPlayer.name)
+        presenter.didSelectRow(
+            section: indexPath.section,
+            row: indexPath.row
+        )
     }
 }
