@@ -61,7 +61,7 @@ class SportixRepoImp: SportixRepo {
     }
     
     func isLeagueFavorite(id: Int) -> Bool {
-       return true
+        return coreData.isFavorite(leagueId: id)
     }
     
     func getLeagues(for sport: Sport) async throws -> [League] {
