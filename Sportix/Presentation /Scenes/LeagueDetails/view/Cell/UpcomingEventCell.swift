@@ -27,8 +27,7 @@ class UpcomingEventCell: UICollectionViewCell {
     func setupUI() {
         contentView.layer.cornerRadius = 12
         contentView.clipsToBounds = true
-        contentView.layer.borderWidth = 1.0
-        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.backgroundColor = AppTheme.Colors.card
         homeLogoImage.contentMode = .scaleAspectFit
         homeLogoImage.layer.cornerRadius = 32
         homeLogoImage.clipsToBounds = true

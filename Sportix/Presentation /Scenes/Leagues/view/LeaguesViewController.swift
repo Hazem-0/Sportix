@@ -5,9 +5,7 @@
 //  Created by Aalaa Adel on 09/05/2026.
 //
 
-
 import UIKit
-
 
 protocol LeaguesViewProtocol: AnyObject {
     func showLoading()
@@ -18,11 +16,10 @@ protocol LeaguesViewProtocol: AnyObject {
     func showErrorMessage(_ message: String)
 
     func navigateToLeagueDetails(
-        leagueId: Int,
-        leagueName: String,
-        sport: Sport
+        league : League
     )
 }
+
 
 final class LeaguesViewController: UITableViewController {
 
@@ -123,6 +120,8 @@ final class LeaguesViewController: UITableViewController {
 }
 
 
+// MARK: - LeaguesViewProtocol
+
 extension LeaguesViewController: LeaguesViewProtocol {
 
     func showLoading() {
@@ -154,28 +153,28 @@ extension LeaguesViewController: LeaguesViewProtocol {
     }
 
     func navigateToLeagueDetails(
-        leagueId: Int,
-        leagueName: String,
-        sport: Sport
+        league : League
     ) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
         guard let detailsVC = storyboard.instantiateViewController(
             withIdentifier: "LeagueDetailsViewController"
         ) as? LeagueDetailsViewController else {
-            print("Could not find LeagueDetailsViewController")
+            let detailsVC = LeagueDetailsViewController(
+                nibName: "LeagueDetailsViewController",
+                bundle: nil
+            
+            )
+            detailsVC.league = league
+            navigationController?.pushViewController(detailsVC, animated: true)
             return
         }
 
-        detailsVC.sport = sport
-        detailsVC.leagueId = leagueId
-
-        navigationController?.pushViewController(
-            detailsVC,
-            animated: true
-        )
+        detailsVC.league = league
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
+
 
 
 extension LeaguesViewController {

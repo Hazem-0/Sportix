@@ -7,11 +7,11 @@
 
 import Foundation
 
-
-
-protocol FavoritesPresenter{
+protocol FavoritesPresenter {
     func viewDidLoad()
-    func deleteLeague(at index: Int)
+    func viewWillAppear()
+    func didTapDeleteLeague(at index: Int)
+    func confirmDeleteLeague(at index: Int)
     func didSelectLeague(at index: Int)
 }
 
@@ -26,6 +26,9 @@ class FavoritesPresenterImp: FavoritesPresenter {
     }
     
     func viewDidLoad() {
+    }
+    
+    func viewWillAppear() {
         loadFavorites()
     }
     
@@ -38,7 +41,12 @@ class FavoritesPresenterImp: FavoritesPresenter {
         }
     }
     
-    func deleteLeague(at index: Int) {
+    func didTapDeleteLeague(at index: Int) {
+        let league = leagues[index]
+        view?.showDeleteConfirmation(leagueName: league.name, index: index)
+    }
+    
+    func confirmDeleteLeague(at index: Int) {
         let league = leagues[index]
         repository.removeFavLeague(id: league.id)
         leagues.remove(at: index)

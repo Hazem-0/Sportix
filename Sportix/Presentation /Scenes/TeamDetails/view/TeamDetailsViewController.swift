@@ -28,14 +28,14 @@ final class TeamDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        guard setupPresenter() else {
+            return
+        }
         setupUI()
         setupTableView()
         setupLoadingIndicator()
 
-        guard setupPresenter() else {
-            return
-        }
+       
 
         presenter.viewDidLoad()
     }

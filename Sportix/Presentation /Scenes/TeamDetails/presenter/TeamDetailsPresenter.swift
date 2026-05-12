@@ -49,7 +49,11 @@ final class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
     }
 
     func getNumberOfSections() -> Int {
-        return team == nil ? 0 : 2
+        guard team != nil else {
+                return 0
+            }
+
+            return 2
     }
 
     func getNumberOfRows(in section: Int) -> Int {

@@ -27,7 +27,7 @@ class LatestEventCell: UICollectionViewCell {
     func setupUI() {
         contentView.layer.cornerRadius = 12
         contentView.clipsToBounds = true
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = AppTheme.Colors.card
         
         homeLogoImage.contentMode = .scaleAspectFit
         homeLogoImage.layer.cornerRadius = 16

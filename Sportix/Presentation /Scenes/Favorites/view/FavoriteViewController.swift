@@ -11,9 +11,10 @@ protocol FavoritesView: AnyObject {
     func showFavorites(_ leagues: [League])
     func showEmptyState()
     func navigateToDetails(for league: League)
+    func showDeleteConfirmation(leagueName: String, index: Int)
 }
 
-class FavoriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FavoritesView{
+class FavoriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FavoritesView {
     
     @IBOutlet weak var emptyStateImage: UIImageView!
     @IBOutlet weak var emptyStateText: UILabel!
@@ -25,24 +26,44 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = FavoritesPresenterImp(view: self)
+        setupUI()
         setupTableView()
         presenter.viewDidLoad()
-        
-       
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewWillAppear()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = AppTheme.Colors.background
+        tableView.backgroundColor = AppTheme.Colors.background
         
+        emptyStateText.textColor = AppTheme.Colors.textSecondary
+        emptyStateText.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        
+        setupNavigationTitle()
+    }
+    
+    private func setupNavigationTitle() {
+        title = "Favorites"
+        
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: AppTheme.Colors.textPrimary,
+            .font: UIFont.systemFont(ofSize: 18, weight: .bold)
+        ]
+        navigationController?.navigationBar.tintColor = AppTheme.Colors.primary
     }
     
     func setupTableView() {
-        let nib = UINib(nibName: "FavoriteCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "FavoriteCell")
+        let nib = UINib(nibName: "LeagueTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "LeagueTableViewCell")
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.rowHeight = 78
     }
     
     func showFavorites(_ leagues: [League]) {
@@ -62,37 +83,54 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func navigateToDetails(for league: League) {
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
+            let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
+            detailsVC.leagueId = league.id
+            detailsVC.league = league
+            navigationController?.pushViewController(detailsVC, animated: true)
+            return
+        }
+
+        detailsVC.leagueId = league.id
+        detailsVC.league = league
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
     
-
+    func showDeleteConfirmation(leagueName: String, index: Int) {
+        showConfirmation(
+            title: "Remove League",
+            message: "Are you sure you want to remove \(leagueName) from your favorites?",
+            confirmTitle: "Remove",
+            isDestructive: true
+        ) { [weak self] in
+            self?.presenter.confirmDeleteLeague(at: index)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteLeagues.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as? FavoriteCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTableViewCell", for: indexPath) as? LeagueTableViewCell else {
             return UITableViewCell()
         }
         
         let league = favoriteLeagues[indexPath.row]
-        cell.congifg(league: league)
+        cell.configure(with: league)
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.didSelectLeague(at: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            presenter.deleteLeague(at: indexPath.row)
+            presenter.didTapDeleteLeague(at: indexPath.row)
         }
     }
-    
-    
-    
-    
 }

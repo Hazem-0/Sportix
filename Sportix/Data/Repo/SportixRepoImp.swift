@@ -38,11 +38,7 @@ class SportixRepoImp: SportixRepo {
     
     func getAllFavoriteLeagues() -> [League] {
         let entities = coreData.fetchAllFavorites()
-        if entities.isEmpty {
-            return [
-                League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-            ]
-        }
+       
         return entities.map { $0.toLeague() }
     }
     

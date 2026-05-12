@@ -21,7 +21,6 @@ protocol LeaguesPresenterProtocol: AnyObject {
 }
 
 
-
 final class LeaguesPresenter: LeaguesPresenterProtocol {
 
     weak var view: LeaguesViewProtocol?
@@ -74,9 +73,7 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
         }
 
         view?.navigateToLeagueDetails(
-            leagueId: selectedLeague.id,
-            leagueName: selectedLeague.name,
-            sport: selectedLeague.sport
+            league : selectedLeague
         )
     }
 
