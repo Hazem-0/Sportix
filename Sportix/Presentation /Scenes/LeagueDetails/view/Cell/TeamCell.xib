@@ -10,19 +10,24 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TeamCell" customModule="Sportix" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="104" height="112"/>
+            <rect key="frame" x="0.0" y="0.0" width="131" height="151"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="104" height="112"/>
+                <rect key="frame" x="0.0" y="0.0" width="131" height="151"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mQf-FP-GRU">
-                        <rect key="frame" x="20" y="9" width="64" height="64"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mQf-FP-GRU">
+                        <rect key="frame" x="33.5" y="16" width="64" height="64"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="64" id="W1b-D6-tUW"/>
+                            <constraint firstAttribute="height" constant="64" id="tsQ-yc-Saq"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nBL-e0-YtM">
-                        <rect key="frame" x="14" y="83" width="77" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nBL-e0-YtM">
+                        <rect key="frame" x="6" y="90" width="119" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="c8e-ti-4rh"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -30,12 +35,19 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="104" height="112"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="nBL-e0-YtM" secondAttribute="trailing" constant="6" id="Bfu-au-aqN"/>
+                <constraint firstItem="mQf-FP-GRU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="F1g-Rt-YDn"/>
+                <constraint firstItem="mQf-FP-GRU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Sjv-QM-nMG"/>
+                <constraint firstItem="nBL-e0-YtM" firstAttribute="top" secondItem="mQf-FP-GRU" secondAttribute="bottom" constant="10" id="bRf-TZ-3fr"/>
+                <constraint firstItem="nBL-e0-YtM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="u61-7I-782"/>
+            </constraints>
+            <size key="customSize" width="131" height="151"/>
             <connections>
                 <outlet property="logoImage" destination="mQf-FP-GRU" id="Nva-tf-2Tv"/>
                 <outlet property="teamName" destination="nBL-e0-YtM" id="RY1-uL-Edu"/>
             </connections>
-            <point key="canvasLocation" x="171.01449275362319" y="104.46428571428571"/>
+            <point key="canvasLocation" x="189.13043478260872" y="117.52232142857142"/>
         </collectionViewCell>
     </objects>
 </document>

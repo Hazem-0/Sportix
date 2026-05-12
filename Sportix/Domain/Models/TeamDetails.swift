@@ -8,6 +8,7 @@
 import Foundation
 
 struct TeamDetails {
+    let id: Int
     let name: String
     let country: String
     let countryFlag: String

@@ -9,13 +9,6 @@ import Foundation
 
 class SportixRepoImp: SportixRepo {
     
-    
-  
-   
-    
-   
-    
-    
     private let appSettings: AppSettingsLocalDataSourceProtocol
     private let coreData: CoreDataManager
     private let networkManager: NetworkManager
@@ -31,7 +24,6 @@ class SportixRepoImp: SportixRepo {
     }
     
         
-        
     func hasSeenOnboarding() -> Bool {
         return appSettings.hasSeenOnboarding()
     }
@@ -40,19 +32,13 @@ class SportixRepoImp: SportixRepo {
         appSettings.markOnboardingAsSeen()
     }
     
-    
-    
     func saveFavLeague(league: League) {
         coreData.saveFavorite(league: league)
     }
     
     func getAllFavoriteLeagues() -> [League] {
         let entities = coreData.fetchAllFavorites()
-        if entities.isEmpty {
-            return [
-                League(id: 1, name: "Premier League", sport: .Football, country: "England", badge: "https://dorve.com/wp-content/uploads/2023/08/premierleague-1024x1024.png")
-            ]
-        }
+       
         return entities.map { $0.toLeague() }
     }
     
@@ -85,7 +71,18 @@ class SportixRepoImp: SportixRepo {
     }
     
     func fetchTeams(sport: Sport, leagueId: Int) async throws -> [TeamDetails] {
-        let responses = try await networkManager.fetchTeams(sport: sport.displayName, leagueId: leagueId)
+        let responses = try await networkManager.fetchTeams(
+            sport: sport,
+            leagueId: leagueId
+        )
         return responses.map { $0.toDomain() }
+    }
+
+    func fetchTeamDetails(sport: Sport, teamId: Int) async throws -> TeamDetails {
+        let response = try await networkManager.fetchTeamDetails(
+            sport: sport,
+            teamId: teamId
+        )
+        return response.toDomain()
     }
 }

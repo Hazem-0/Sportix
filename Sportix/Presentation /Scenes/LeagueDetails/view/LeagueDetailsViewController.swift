@@ -12,7 +12,6 @@ protocol LeagueDetailsViewProtocol: AnyObject {
     func showLoading()
     func hideLoading()
     func updateFavoriteButton(isFavorite: Bool)
-    func setupLeague(league: League)
     func showToast(message: String, icon: String)
 }
 
@@ -20,51 +19,55 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
 
     @IBOutlet weak var favButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
     private var activityIndicator: UIActivityIndicatorView!
-    
+
     var presenter: LeagueDetailsPresenterProtocol!
     var sport: Sport = .Football
     var leagueId: Int = 0
-    var league: League?
+    var league: League!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+
         setupLoadingIndicator()
-        
+        setupCollectionView()
+
         if presenter == nil {
-            presenter = LeagueDetailsPresenter(view: self, sport: sport, leagueId: leagueId)
+            presenter = LeagueDetailsPresenter(view: self, league: league)
         }
-        
+
         updateFavoriteButton(isFavorite: presenter.isFavorite)
         presenter.viewDidLoad()
     }
-    
+
     @IBAction func favButtonTapped(_ sender: UIBarButtonItem) {
-        guard let currentLeague = league else { return }
-        presenter.toggleFavorite(league: currentLeague)
+        presenter.toggleFavorite()
     }
-    
+
     private func setupLoadingIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
     }
-    
+
     private func setupCollectionView() {
         collectionView.register(UpcomingEventCell.nib, forCellWithReuseIdentifier: UpcomingEventCell.identifier)
         collectionView.register(LatestEventCell.nib, forCellWithReuseIdentifier: LatestEventCell.identifier)
         collectionView.register(TeamCell.nib, forCellWithReuseIdentifier: TeamCell.identifier)
-        collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.identifier)
-        
+        collectionView.register(
+            SectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SectionHeaderView.identifier
+        )
+        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
-    
+
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             guard let self = self else { return nil }
             switch sectionIndex {
             case 0: return self.createUpcomingSection()
@@ -74,7 +77,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
             }
         }
     }
-    
+
     private func createUpcomingSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -87,7 +90,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
-    
+
     private func createLatestSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -99,7 +102,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
-    
+
     private func createTeamsSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -112,16 +115,20 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
-    
+
     private func createHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
-        return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        return NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0: return presenter.upcomingEvents.count
@@ -130,7 +137,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         default: return 0
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
@@ -149,57 +156,75 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
             return UICollectionViewCell()
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else {
             return UICollectionReusableView()
         }
-        
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeaderView.identifier, for: indexPath) as! SectionHeaderView
-        
+
+        let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: SectionHeaderView.identifier,
+            for: indexPath
+        ) as! SectionHeaderView
+
         switch indexPath.section {
         case 0: header.titleLabel.text = "Upcoming Events"
         case 1: header.titleLabel.text = "Latest Events"
         case 2: header.titleLabel.text = "Teams"
         default: header.titleLabel.text = ""
         }
-        
+
         return header
     }
 
     func reloadData() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-    
-    func showLoading() {
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-            self.collectionView.isHidden = true
-        }
-    }
-    
-    func hideLoading() {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.collectionView.isHidden = false
-        }
-    }
-    
-    func updateFavoriteButton(isFavorite: Bool) {
-        DispatchQueue.main.async {
-            self.favButton.image = UIImage(systemName: isFavorite ? "star.fill" : "star")
-        }
+        collectionView.reloadData()
     }
 
-    func setupLeague(league: League) {
-        self.league = league
+    func showLoading() {
+        activityIndicator.startAnimating()
+        collectionView.isHidden = true
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        collectionView.isHidden = false
+    }
+
+    func updateFavoriteButton(isFavorite: Bool) {
+        favButton.image = UIImage(systemName: isFavorite ? "star.fill" : "star")
     }
 
     func showToast(message: String, icon: String) {
-        DispatchQueue.main.async {
-            self.showToast(message: message, iconName: icon)
+        showToast(message: message, iconName: icon)
+    }
+}
+
+extension LeagueDetailsViewController: UICollectionViewDelegate {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard indexPath.section == 2 else { return }
+
+        let selectedTeam = presenter.teams[indexPath.row]
+
+        guard let teamDetailsVC = storyboard?.instantiateViewController(
+            withIdentifier: "TeamDetailsViewController"
+        ) as? TeamDetailsViewController else {
+            print("Could not find TeamDetailsViewController")
+            return
         }
+
+        teamDetailsVC.sport = sport
+        teamDetailsVC.teamId = selectedTeam.id
+
+        navigationController?.pushViewController(teamDetailsVC, animated: true)
     }
 }
