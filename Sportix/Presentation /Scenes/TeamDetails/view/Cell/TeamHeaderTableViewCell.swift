@@ -2,10 +2,9 @@
 //  TeamHeaderTableViewCell.swift
 //  Sportix
 //
-//  Created by Aalaa Adel on 09/05/2026.
-//
 
 import UIKit
+import SDWebImage
 
 final class TeamHeaderTableViewCell: UITableViewCell {
 
@@ -13,7 +12,6 @@ final class TeamHeaderTableViewCell: UITableViewCell {
 
     @IBOutlet weak var teamLogoImageView: UIImageView!
     @IBOutlet weak var teamNameLabel: UILabel!
-    @IBOutlet weak var countryLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,7 +22,13 @@ final class TeamHeaderTableViewCell: UITableViewCell {
         super.layoutSubviews()
 
         teamLogoImageView.layer.cornerRadius = teamLogoImageView.frame.width / 2
-        countryLabel.layer.cornerRadius = countryLabel.frame.height / 2
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        teamLogoImageView.image = UIImage(systemName: "sportscourt.circle")
+        teamNameLabel.text = nil
     }
 
     private func setupUI() {
@@ -36,26 +40,30 @@ final class TeamHeaderTableViewCell: UITableViewCell {
         teamLogoImageView.backgroundColor = .white
         teamLogoImageView.contentMode = .scaleAspectFit
         teamLogoImageView.clipsToBounds = true
+        teamLogoImageView.tintColor = AppTheme.Colors.primary
         teamLogoImageView.layer.borderWidth = 2
         teamLogoImageView.layer.borderColor = AppTheme.Colors.primary.cgColor
 
-        teamNameLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        teamNameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         teamNameLabel.textColor = AppTheme.Colors.textPrimary
         teamNameLabel.textAlignment = .center
         teamNameLabel.numberOfLines = 1
         teamNameLabel.adjustsFontSizeToFitWidth = true
         teamNameLabel.minimumScaleFactor = 0.75
-
-        countryLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        countryLabel.textColor = AppTheme.Colors.primary
-        countryLabel.backgroundColor = AppTheme.Colors.primary.withAlphaComponent(0.10)
-        countryLabel.textAlignment = .center
-        countryLabel.clipsToBounds = true
     }
 
     func configure(with team: TeamDetails) {
-        teamLogoImageView.image = UIImage(named: team.logoName)
         teamNameLabel.text = team.name
-        countryLabel.text = "  \(team.countryFlag) \(team.country)  "
+
+        let placeholder = UIImage(systemName: "sportscourt.circle")
+
+        if team.logoName.lowercased().hasPrefix("http") {
+            teamLogoImageView.sd_setImage(
+                with: URL(string: team.logoName),
+                placeholderImage: placeholder
+            )
+        } else {
+            teamLogoImageView.image = UIImage(named: team.logoName) ?? placeholder
+        }
     }
 }

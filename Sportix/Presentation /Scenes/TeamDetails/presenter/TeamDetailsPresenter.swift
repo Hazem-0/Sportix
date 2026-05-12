@@ -7,83 +7,134 @@
 
 import Foundation
 
-protocol TeamDetailsViewProtocol: AnyObject {
-    func showTeamDetails(_ team: TeamDetails)
+protocol TeamDetailsPresenterProtocol: AnyObject {
+    func viewDidLoad()
+
+    func getNumberOfSections() -> Int
+    func getNumberOfRows(in section: Int) -> Int
+
+    func getTeamDetails() -> TeamDetails?
+    func getPlayer(at row: Int) -> Player?
+
+    func didSelectRow(section: Int, row: Int)
 }
 
-final class TeamDetailsPresenter {
+final class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
 
     weak var view: TeamDetailsViewProtocol?
 
-    func viewDidLoad() {
-        let team = getStaticTeamDetails()
-        view?.showTeamDetails(team)
+    private let sport: Sport
+    private let teamId: Int
+    private let repo: SportixRepo
+
+    private var team: TeamDetails?
+    private var loadTask: Task<Void, Never>?
+
+    init(
+        sport: Sport,
+        teamId: Int,
+        repo: SportixRepo = SportixRepoImp()
+    ) {
+        self.sport = sport
+        self.teamId = teamId
+        self.repo = repo
     }
 
-    private func getStaticTeamDetails() -> TeamDetails {
-        return TeamDetails(
-            name: "Juventus FC",
-            country: "Italy",
-            countryFlag: "🇮🇹",
-            logoName: "sport_basketball",
-            players: [
-                Player(
-                    imageName: "sport_cricket",
-                    number: "16",
-                    name: "Michele Di Gregorio",
-                    position: "Goalkeeper",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "3",
-                    name: "Bremer",
-                    position: "Defender",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "24",
-                    name: "Danilo",
-                    position: "Defender",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "11",
-                    name: "Douglas Costa",
-                    position: "Midfielder",
-                    isInjured: true
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "5",
-                    name: "Manuel Locatelli",
-                    position: "Midfielder",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "7",
-                    name: "Federico Chiesa",
-                    position: "Forward",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "9",
-                    name: "Dušan Vlahović",
-                    position: "Forward",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "16",
-                    name: "Weston McKennie",
-                    position: "Midfielder",
-                    isInjured: false
+    deinit {
+        loadTask?.cancel()
+    }
+
+    func viewDidLoad() {
+        loadTeamDetails()
+    }
+
+    func getNumberOfSections() -> Int {
+        return team == nil ? 0 : 2
+    }
+
+    func getNumberOfRows(in section: Int) -> Int {
+        guard let team = team else {
+            return 0
+        }
+
+        if section == 0 {
+            return 1
+        }
+
+        return team.players.count + 1
+    }
+
+    func getTeamDetails() -> TeamDetails? {
+        return team
+    }
+
+    func getPlayer(at row: Int) -> Player? {
+        guard let team = team else {
+            return nil
+        }
+
+        let playerIndex = row - 1
+
+        guard playerIndex >= 0,
+              playerIndex < team.players.count else {
+            return nil
+        }
+
+        return team.players[playerIndex]
+    }
+
+    func didSelectRow(section: Int, row: Int) {
+        guard section == 1,
+              row > 0,
+              let selectedPlayer = getPlayer(at: row) else {
+            return
+        }
+
+        print("Selected player:", selectedPlayer.name)
+    }
+
+    private func loadTeamDetails() {
+        loadTask?.cancel()
+
+        loadTask = Task { [weak self] in
+            guard let self = self else { return }
+
+            await MainActor.run {
+                self.view?.showLoading()
+            }
+
+            do {
+                let fetchedTeam = try await self.repo.fetchTeamDetails(
+                    sport: self.sport,
+                    teamId: self.teamId
                 )
-            ]
-        )
+
+                if Task.isCancelled {
+                    return
+                }
+
+                self.team = fetchedTeam
+
+                await MainActor.run {
+                    self.view?.hideLoading()
+                    self.view?.reloadData()
+                }
+
+            } catch {
+                if Task.isCancelled {
+                    return
+                }
+
+                print("Team Details Error Full:", error)
+                print("Team Details Error Description:", error.localizedDescription)
+
+                self.team = nil
+
+                await MainActor.run {
+                    self.view?.hideLoading()
+                    self.view?.showErrorMessage("Couldn't load team details. Please try again.")
+                }
+            }
+        }
     }
 }

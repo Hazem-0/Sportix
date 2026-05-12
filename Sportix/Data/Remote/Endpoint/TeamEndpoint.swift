@@ -7,12 +7,31 @@
 
 import Alamofire
 
-struct TeamsEndpoint: NetworkEndpoint {
-    let sport: String
-    let leagueId: Int
+enum TeamsQuery {
+    case league(id: Int)
+    case team(id: Int)
+}
 
-    var path: String { "/\(sport)/" }
+struct TeamsEndpoint: NetworkEndpoint {
+    let sport: Sport
+    let query: TeamsQuery
+
+    var path: String { "/\(sport.apiPath)/" }
     var parameters: Parameters {
-        ["met": "Teams", "leagueId": leagueId, "APIkey": API.apiKey]
+        var params: Parameters = [
+            "met": "Teams",
+            "APIkey": API.apiKey
+        ]
+        
+        switch query {
+        case .league(let id):
+            params["leagueId"] = id
+            
+        case .team(let id):
+            params["teamId"] = id
+        }
+        
+        return params
     }
+
 }

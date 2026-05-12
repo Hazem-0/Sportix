@@ -81,11 +81,39 @@ final class NetworkManager {
         return res.result ?? []
     }
 
-    func fetchTeams(sport: String, leagueId: Int) async throws -> [TeamResponse] {
-        let res = try await request(
-            endpoint: TeamsEndpoint(sport: sport.lowercased(), leagueId: leagueId),
+    func fetchTeams(sport: Sport, leagueId: Int) async throws -> [TeamResponse] {
+        let response = try await request(
+            endpoint: TeamsEndpoint(
+                sport: sport,
+                query: .league(id: leagueId)
+            ),
             model: SportixResponse<[TeamResponse]>.self
         )
-        return res.result ?? []
+        
+        guard response.success == 1 else {
+            throw NetworkError.serverError(response.error ?? "Failed to fetch teams.")
+        }
+        
+        return response.result ?? []
+    }
+
+    func fetchTeamDetails(sport: Sport, teamId: Int) async throws -> TeamResponse {
+        let response = try await request(
+            endpoint: TeamsEndpoint(
+                sport: sport,
+                query: .team(id: teamId)
+            ),
+            model: SportixResponse<[TeamResponse]>.self
+        )
+        
+        guard response.success == 1 else {
+            throw NetworkError.serverError(response.error ?? "Failed to fetch team details.")
+        }
+        
+        guard let team = response.result?.first else {
+            throw NetworkError.emptyData
+        }
+        
+        return team
     }
 }

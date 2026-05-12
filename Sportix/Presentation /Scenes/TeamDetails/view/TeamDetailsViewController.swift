@@ -7,26 +7,55 @@
 
 import UIKit
 
+
+protocol TeamDetailsViewProtocol: AnyObject {
+    func showLoading()
+    func hideLoading()
+
+    func reloadData()
+    func showErrorMessage(_ message: String)
+}
+
 final class TeamDetailsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    private var presenter: TeamDetailsPresenter!
-    private var team: TeamDetails?
+    var sport: Sport!
+    var teamId: Int!
+
+    private var presenter: TeamDetailsPresenterProtocol!
+    private var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupPresenter()
         setupUI()
         setupTableView()
+        setupLoadingIndicator()
+
+        guard setupPresenter() else {
+            return
+        }
 
         presenter.viewDidLoad()
     }
 
-    private func setupPresenter() {
-        presenter = TeamDetailsPresenter()
+    private func setupPresenter() -> Bool {
+        guard let sport = sport,
+              let teamId = teamId else {
+            showErrorMessage("Team data is missing.")
+            return false
+        }
+
+        let presenter = TeamDetailsPresenter(
+            sport: sport,
+            teamId: teamId
+        )
+
         presenter.view = self
+        self.presenter = presenter
+
+        return true
     }
 
     private func setupUI() {
@@ -45,6 +74,20 @@ final class TeamDetailsViewController: UIViewController {
             target: self,
             action: #selector(backButtonTapped)
         )
+    }
+
+    private func setupLoadingIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = AppTheme.Colors.primary
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 
     private func setupTableView() {
@@ -95,21 +138,47 @@ final class TeamDetailsViewController: UIViewController {
         )
     }
 
+    private func showMessageInTableBackground(_ message: String) {
+        let label = UILabel()
+        label.text = message
+        label.textColor = AppTheme.Colors.textSecondary
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+
+        tableView.backgroundView = label
+    }
+
+    private func hideTableBackgroundMessage() {
+        tableView.backgroundView = nil
+    }
+
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-
-    @objc private func favoriteButtonTapped() {
-        print("Favorite tapped")
-    }
 }
-
 
 extension TeamDetailsViewController: TeamDetailsViewProtocol {
 
-    func showTeamDetails(_ team: TeamDetails) {
-        self.team = team
+    func showLoading() {
+        hideTableBackgroundMessage()
+        activityIndicator.startAnimating()
+        tableView.isHidden = true
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        tableView.isHidden = false
+    }
+
+    func reloadData() {
+        hideTableBackgroundMessage()
         tableView.reloadData()
+    }
+
+    func showErrorMessage(_ message: String) {
+        tableView.reloadData()
+        showMessageInTableBackground(message)
     }
 }
 
@@ -117,22 +186,14 @@ extension TeamDetailsViewController: TeamDetailsViewProtocol {
 extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return team == nil ? 0 : 2
+        return presenter.getNumberOfSections()
     }
 
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        guard let team = team else {
-            return 0
-        }
-
-        if section == 0 {
-            return 1
-        }
-
-        return team.players.count + 1
+        return presenter.getNumberOfRows(in: section)
     }
 
     func tableView(
@@ -140,15 +201,15 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
 
-        guard let team = team else {
-            return UITableViewCell()
-        }
-
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: TeamHeaderTableViewCell.identifier,
                 for: indexPath
             ) as? TeamHeaderTableViewCell else {
+                return UITableViewCell()
+            }
+
+            guard let team = presenter.getTeamDetails() else {
                 return UITableViewCell()
             }
 
@@ -174,7 +235,10 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
             return UITableViewCell()
         }
 
-        let player = team.players[indexPath.row - 1]
+        guard let player = presenter.getPlayer(at: indexPath.row) else {
+            return UITableViewCell()
+        }
+
         cell.configure(with: player)
 
         return cell
@@ -185,7 +249,7 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         if indexPath.section == 0 {
-            return 240
+            return 200
         }
 
         if indexPath.row == 0 {
@@ -199,13 +263,9 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        guard indexPath.section == 1,
-              indexPath.row > 0,
-              let team = team else {
-            return
-        }
-
-        let selectedPlayer = team.players[indexPath.row - 1]
-        print("Selected player:", selectedPlayer.name)
+        presenter.didSelectRow(
+            section: indexPath.section,
+            row: indexPath.row
+        )
     }
 }

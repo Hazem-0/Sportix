@@ -13,4 +13,5 @@ struct TeamResponse: Decodable {
     let team_logo: String?
     let team_country: String?
     let team_founded: String?
+    let players: [PlayerResponse]?
 }

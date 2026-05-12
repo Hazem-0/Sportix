@@ -9,13 +9,6 @@ import Foundation
 
 class SportixRepoImp: SportixRepo {
     
-    
-  
-   
-    
-   
-    
-    
     private let appSettings: AppSettingsLocalDataSourceProtocol
     private let coreData: CoreDataManager
     private let networkManager: NetworkManager
@@ -31,7 +24,6 @@ class SportixRepoImp: SportixRepo {
     }
     
         
-        
     func hasSeenOnboarding() -> Bool {
         return appSettings.hasSeenOnboarding()
     }
@@ -39,8 +31,6 @@ class SportixRepoImp: SportixRepo {
     func markOnboardingAsSeen() {
         appSettings.markOnboardingAsSeen()
     }
-    
-    
     
     func saveFavLeague(league: League) {
         coreData.saveFavorite(league: league)
@@ -85,7 +75,18 @@ class SportixRepoImp: SportixRepo {
     }
     
     func fetchTeams(sport: Sport, leagueId: Int) async throws -> [TeamDetails] {
-        let responses = try await networkManager.fetchTeams(sport: sport.displayName, leagueId: leagueId)
+        let responses = try await networkManager.fetchTeams(
+            sport: sport,
+            leagueId: leagueId
+        )
         return responses.map { $0.toDomain() }
+    }
+
+    func fetchTeamDetails(sport: Sport, teamId: Int) async throws -> TeamDetails {
+        let response = try await networkManager.fetchTeamDetails(
+            sport: sport,
+            teamId: teamId
+        )
+        return response.toDomain()
     }
 }

@@ -47,7 +47,7 @@ class LeagueDetailsViewController: UIViewController {
         collectionView.register(LatestEventCell.nib, forCellWithReuseIdentifier: LatestEventCell.identifier)
         collectionView.register(TeamCell.nib, forCellWithReuseIdentifier: TeamCell.identifier)
         collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.identifier)
-        
+        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
@@ -176,5 +176,34 @@ extension LeagueDetailsViewController: LeagueDetailsViewProtocol {
             self.activityIndicator.stopAnimating()
             self.collectionView.isHidden = false
         }
+    }
+}
+
+extension LeagueDetailsViewController: UICollectionViewDelegate {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard indexPath.section == 2 else {
+            return
+        }
+        
+        let selectedTeam = presenter.teams[indexPath.row]
+        
+        guard let teamDetailsVC = storyboard?.instantiateViewController(
+            withIdentifier: "TeamDetailsViewController"
+        ) as? TeamDetailsViewController else {
+            print("Could not find TeamDetailsViewController")
+            return
+        }
+        
+        teamDetailsVC.sport = sport
+        teamDetailsVC.teamId = selectedTeam.id
+        
+        navigationController?.pushViewController(
+            teamDetailsVC,
+            animated: true
+        )
     }
 }
