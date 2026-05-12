@@ -86,13 +86,12 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
             let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
-            detailsVC.leagueId = league.id
+          
             detailsVC.league = league
             navigationController?.pushViewController(detailsVC, animated: true)
             return
         }
 
-        detailsVC.leagueId = league.id
         detailsVC.league = league
         navigationController?.pushViewController(detailsVC, animated: true)
     }
