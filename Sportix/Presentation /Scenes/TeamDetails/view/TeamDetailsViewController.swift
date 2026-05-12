@@ -11,21 +11,36 @@ final class TeamDetailsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    var sport: Sport!
+    var teamId: Int!
+
     private var presenter: TeamDetailsPresenter!
     private var team: TeamDetails?
+    private var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupPresenter()
         setupUI()
         setupTableView()
+        setupLoadingIndicator()
+        setupPresenter()
 
         presenter.viewDidLoad()
     }
 
     private func setupPresenter() {
-        presenter = TeamDetailsPresenter()
+        guard let sport = sport,
+              let teamId = teamId else {
+            showErrorMessage("Team data is missing.")
+            return
+        }
+
+        presenter = TeamDetailsPresenter(
+            sport: sport,
+            teamId: teamId
+        )
+
         presenter.view = self
     }
 
@@ -45,6 +60,20 @@ final class TeamDetailsViewController: UIViewController {
             target: self,
             action: #selector(backButtonTapped)
         )
+    }
+
+    private func setupLoadingIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = AppTheme.Colors.primary
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(activityIndicator)
+
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 
     private func setupTableView() {
@@ -95,21 +124,48 @@ final class TeamDetailsViewController: UIViewController {
         )
     }
 
+    private func showMessageInTableBackground(_ message: String) {
+        let label = UILabel()
+        label.text = message
+        label.textColor = AppTheme.Colors.textSecondary
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+
+        tableView.backgroundView = label
+    }
+
+    private func hideTableBackgroundMessage() {
+        tableView.backgroundView = nil
+    }
+
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-
-    @objc private func favoriteButtonTapped() {
-        print("Favorite tapped")
-    }
 }
-
 
 extension TeamDetailsViewController: TeamDetailsViewProtocol {
 
+    func showLoading() {
+        activityIndicator.startAnimating()
+        tableView.isHidden = true
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        tableView.isHidden = false
+    }
+
     func showTeamDetails(_ team: TeamDetails) {
         self.team = team
+        hideTableBackgroundMessage()
         tableView.reloadData()
+    }
+
+    func showErrorMessage(_ message: String) {
+        self.team = nil
+        tableView.reloadData()
+        showMessageInTableBackground(message)
     }
 }
 
@@ -185,7 +241,7 @@ extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate 
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
         if indexPath.section == 0 {
-            return 240
+            return 200
         }
 
         if indexPath.row == 0 {

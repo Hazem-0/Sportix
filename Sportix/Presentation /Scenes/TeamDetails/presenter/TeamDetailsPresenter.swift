@@ -8,82 +8,77 @@
 import Foundation
 
 protocol TeamDetailsViewProtocol: AnyObject {
+    func showLoading()
+    func hideLoading()
     func showTeamDetails(_ team: TeamDetails)
+    func showErrorMessage(_ message: String)
 }
 
 final class TeamDetailsPresenter {
 
     weak var view: TeamDetailsViewProtocol?
-
-    func viewDidLoad() {
-        let team = getStaticTeamDetails()
-        view?.showTeamDetails(team)
+    
+    private let sport: Sport
+    private let teamId: Int
+    private let repo: SportixRepo
+    
+    private var loadTask: Task<Void, Never>?
+    
+    init(
+        sport: Sport,
+        teamId: Int,
+        repo: SportixRepo = SportixRepoImp()
+    ) {
+        self.sport = sport
+        self.teamId = teamId
+        self.repo = repo
     }
-
-    private func getStaticTeamDetails() -> TeamDetails {
-        return TeamDetails(
-            name: "Juventus FC",
-            country: "Italy",
-            countryFlag: "🇮🇹",
-            logoName: "sport_basketball",
-            players: [
-                Player(
-                    imageName: "sport_cricket",
-                    number: "16",
-                    name: "Michele Di Gregorio",
-                    position: "Goalkeeper",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "3",
-                    name: "Bremer",
-                    position: "Defender",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "24",
-                    name: "Danilo",
-                    position: "Defender",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "11",
-                    name: "Douglas Costa",
-                    position: "Midfielder",
-                    isInjured: true
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "5",
-                    name: "Manuel Locatelli",
-                    position: "Midfielder",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "7",
-                    name: "Federico Chiesa",
-                    position: "Forward",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "9",
-                    name: "Dušan Vlahović",
-                    position: "Forward",
-                    isInjured: false
-                ),
-                Player(
-                    imageName: "sport_cricket",
-                    number: "16",
-                    name: "Weston McKennie",
-                    position: "Midfielder",
-                    isInjured: false
+    
+    deinit {
+        loadTask?.cancel()
+    }
+    
+    func viewDidLoad() {
+        loadTeamDetails()
+    }
+    
+    private func loadTeamDetails() {
+        loadTask?.cancel()
+        
+        loadTask = Task { [weak self] in
+            guard let self = self else { return }
+            
+            await MainActor.run {
+                self.view?.showLoading()
+            }
+            
+            do {
+                let team = try await self.repo.fetchTeamDetails(
+                    sport: self.sport,
+                    teamId: self.teamId
                 )
-            ]
-        )
+                
+                if Task.isCancelled {
+                    return
+                }
+                
+                await MainActor.run {
+                    self.view?.hideLoading()
+                    self.view?.showTeamDetails(team)
+                }
+                
+            } catch {
+                if Task.isCancelled {
+                    return
+                }
+                
+                print("Team Details Error:", error.localizedDescription)
+                
+                await MainActor.run {
+                    self.view?.hideLoading()
+                    self.view?.showErrorMessage("Couldn't load team details. Please try again.")
+                }
+            }
+        }
     }
 }

@@ -56,6 +56,8 @@
 		51E5B1112FB175FB0041342D /* FixtureEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5B1102FB175FB0041342D /* FixtureEndpoint.swift */; };
 		51E5B1132FB177220041342D /* TeamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5B1122FB177220041342D /* TeamEndpoint.swift */; };
 		51E5B1152FB17A880041342D /* TeamResponse+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E5B1142FB17A880041342D /* TeamResponse+Mapping.swift */; };
+		C715E4902FB249F000C70CA6 /* PlayerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715E48F2FB249F000C70CA6 /* PlayerResponse.swift */; };
+		C715E4922FB24B8100C70CA6 /* PlayerResponse+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C715E4912FB24B8100C70CA6 /* PlayerResponse+Mapping.swift */; };
 		C73FE3D82FB225B100CBE019 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C73FE3D72FB225B100CBE019 /* Config.xcconfig */; };
 		C74531772FAA73BE00E492B1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C74531762FAA73BE00E492B1 /* Alamofire */; };
 		C745317F2FAA75AD00E492B1 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745317E2FAA75AD00E492B1 /* AppTheme.swift */; };
@@ -154,6 +156,8 @@
 		51E5B1102FB175FB0041342D /* FixtureEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureEndpoint.swift; sourceTree = "<group>"; };
 		51E5B1122FB177220041342D /* TeamEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEndpoint.swift; sourceTree = "<group>"; };
 		51E5B1142FB17A880041342D /* TeamResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TeamResponse+Mapping.swift"; sourceTree = "<group>"; };
+		C715E48F2FB249F000C70CA6 /* PlayerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResponse.swift; sourceTree = "<group>"; };
+		C715E4912FB24B8100C70CA6 /* PlayerResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerResponse+Mapping.swift"; sourceTree = "<group>"; };
 		C73FE3D72FB225B100CBE019 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		C745317E2FAA75AD00E492B1 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		C74531842FAA7E7900E492B1 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
@@ -622,6 +626,7 @@
 				517231C42FB0BE6700EBD954 /* LeagueResponse.swift */,
 				517231C62FB0BE8A00EBD954 /* FixtureRepsonse.swift */,
 				517231C82FB0BE9F00EBD954 /* TeamResponse.swift */,
+				C715E48F2FB249F000C70CA6 /* PlayerResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -633,6 +638,7 @@
 				51E5B10C2FB1744C0041342D /* LeagueResponse+Mapping.swift */,
 				51E5B10E2FB174690041342D /* FixtureResponse+Mapping.swift */,
 				51E5B1142FB17A880041342D /* TeamResponse+Mapping.swift */,
+				C715E4912FB24B8100C70CA6 /* PlayerResponse+Mapping.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -795,6 +801,7 @@
 				5128EB452FAA179B003FD4F6 /* ViewController.swift in Sources */,
 				C79302F32FAF75E1004A0F90 /* LeagueTableViewCell.swift in Sources */,
 				C7A596972FAB45EC00CB6E89 /* AppSettingsLocalDataSource.swift in Sources */,
+				C715E4922FB24B8100C70CA6 /* PlayerResponse+Mapping.swift in Sources */,
 				517231C72FB0BE8A00EBD954 /* FixtureRepsonse.swift in Sources */,
 				C775360D2FAF34C0007DCF8A /* SportCollectionViewCell.swift in Sources */,
 				513C31512FAE285E008B1D96 /* LeagueDetailsPresenter.swift in Sources */,
@@ -830,6 +837,7 @@
 				51E5B0FD2FB1623D0041342D /* Fixture.swift in Sources */,
 				513C31592FAE28C5008B1D96 /* FavoritesPresnter.swift in Sources */,
 				C74531892FAA830D00E492B1 /* OnboardingViewController.swift in Sources */,
+				C715E4902FB249F000C70CA6 /* PlayerResponse.swift in Sources */,
 				517231C92FB0BE9F00EBD954 /* TeamResponse.swift in Sources */,
 				C77536092FAF30BF007DCF8A /* MainTabBarController.swift in Sources */,
 				51E5B1042FB166400041342D /* TeamCell.swift in Sources */,

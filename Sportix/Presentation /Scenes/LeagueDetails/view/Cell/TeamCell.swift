@@ -6,8 +6,6 @@
 //
 
 import UIKit
-
-import UIKit
 import SDWebImage
 
 class TeamCell: UICollectionViewCell {

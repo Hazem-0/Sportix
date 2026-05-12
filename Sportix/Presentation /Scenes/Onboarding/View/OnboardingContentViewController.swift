@@ -47,6 +47,12 @@ final class OnboardingContentViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = AppTheme.Colors.background
 
+        heroImageView.contentMode = .scaleAspectFill
+        heroImageView.clipsToBounds = true
+
+        gradientOverlayView.backgroundColor = .clear
+        gradientOverlayView.isUserInteractionEnabled = false
+
         titleLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         titleLabel.textColor = AppTheme.Colors.textPrimary
         titleLabel.textAlignment = .center
@@ -93,12 +99,13 @@ final class OnboardingContentViewController: UIViewController {
         ]
 
         gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
 
         if gradientLayer.superlayer == nil {
-            gradientOverlayView.layer.addSublayer(gradientLayer)
+            gradientOverlayView.layer.insertSublayer(gradientLayer, at: 0)
         }
     }
-
     
     @IBAction func actionButtonTapped(_ sender: UIButton) {
         delegate?.didTapNext()

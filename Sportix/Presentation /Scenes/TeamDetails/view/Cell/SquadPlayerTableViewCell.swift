@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class SquadPlayerTableViewCell: UITableViewCell {
 
@@ -34,7 +35,9 @@ final class SquadPlayerTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        playerImageView.image = nil
+        playerImageView.sd_cancelCurrentImageLoad()
+        playerImageView.image = UIImage(systemName: "person.crop.circle")
+
         numberLabel.text = nil
         nameLabel.text = nil
         positionLabel.text = nil
@@ -50,6 +53,8 @@ final class SquadPlayerTableViewCell: UITableViewCell {
         playerImageView.contentMode = .scaleAspectFill
         playerImageView.clipsToBounds = true
         playerImageView.backgroundColor = AppTheme.Colors.card
+        playerImageView.tintColor = AppTheme.Colors.primary
+        playerImageView.image = UIImage(systemName: "person.crop.circle")
 
         numberLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         numberLabel.textColor = AppTheme.Colors.primary
@@ -75,7 +80,8 @@ final class SquadPlayerTableViewCell: UITableViewCell {
     }
 
     func configure(with player: Player) {
-        playerImageView.image = UIImage(named: player.imageName)
+        setPlayerImage(from: player.imageName)
+
         numberLabel.text = player.number
         nameLabel.text = player.name
         positionLabel.text = player.position
@@ -88,6 +94,24 @@ final class SquadPlayerTableViewCell: UITableViewCell {
             statusLabel.text = "Healthy"
             statusLabel.textColor = .systemGreen
             statusLabel.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.12)
+        }
+    }
+
+    private func setPlayerImage(from imagePath: String) {
+        let placeholder = UIImage(systemName: "person.crop.circle")
+
+        guard !imagePath.isEmpty else {
+            playerImageView.image = placeholder
+            return
+        }
+
+        if imagePath.lowercased().hasPrefix("http") {
+            playerImageView.sd_setImage(
+                with: URL(string: imagePath),
+                placeholderImage: placeholder
+            )
+        } else {
+            playerImageView.image = UIImage(named: imagePath) ?? placeholder
         }
     }
 }
