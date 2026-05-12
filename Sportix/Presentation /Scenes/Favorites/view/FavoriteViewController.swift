@@ -37,8 +37,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func setupTableView() {
-        let nib = UINib(nibName: "FavoriteCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "FavoriteCell")
+        let nib = UINib(nibName: "LeagueTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "LeagueTableViewCell")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -71,7 +71,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as? FavoriteCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTableViewCell", for: indexPath) as? FavoriteCell else {
             return UITableViewCell()
         }
         

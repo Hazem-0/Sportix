@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+	
 protocol LeagueDetailsViewProtocol: AnyObject {
     func reloadData()
     func showLoading()
@@ -15,6 +15,7 @@ protocol LeagueDetailsViewProtocol: AnyObject {
 
 class LeagueDetailsViewController: UIViewController {
 
+    @IBOutlet weak var favButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var activityIndicator: UIActivityIndicatorView!
