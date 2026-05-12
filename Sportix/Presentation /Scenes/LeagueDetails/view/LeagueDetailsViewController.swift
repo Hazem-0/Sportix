@@ -6,14 +6,17 @@
 //
 
 import UIKit
-	
+
 protocol LeagueDetailsViewProtocol: AnyObject {
     func reloadData()
     func showLoading()
     func hideLoading()
+    func updateFavoriteButton(isFavorite: Bool)
+    func setupLeague(league: League)
+    func showToast(message: String, icon: String)
 }
 
-class LeagueDetailsViewController: UIViewController {
+class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource, LeagueDetailsViewProtocol {
 
     @IBOutlet weak var favButton: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,6 +26,7 @@ class LeagueDetailsViewController: UIViewController {
     var presenter: LeagueDetailsPresenterProtocol!
     var sport: Sport = .Football
     var leagueId: Int = 0
+    var league: League?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +37,13 @@ class LeagueDetailsViewController: UIViewController {
             presenter = LeagueDetailsPresenter(view: self, sport: sport, leagueId: leagueId)
         }
         
+        updateFavoriteButton(isFavorite: presenter.isFavorite)
         presenter.viewDidLoad()
+    }
+    
+    @IBAction func favButtonTapped(_ sender: UIBarButtonItem) {
+        guard let currentLeague = league else { return }
+        presenter.toggleFavorite(league: currentLeague)
     }
     
     private func setupLoadingIndicator() {
@@ -54,57 +64,60 @@ class LeagueDetailsViewController: UIViewController {
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let self = self else { return nil }
             switch sectionIndex {
-            case 0:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85), heightDimension: .absolute(220))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
-                section.interGroupSpacing = 16
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
-                section.boundarySupplementaryItems = [self.createHeader()]
-                return section
-                
-            case 1:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.interGroupSpacing = 16
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
-                section.boundarySupplementaryItems = [self.createHeader()]
-                return section
-                
-            case 2:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(110), heightDimension: .absolute(130))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
-                section.interGroupSpacing = 16
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
-                section.boundarySupplementaryItems = [self.createHeader()]
-                return section
-                
-            default:
-                return nil
+            case 0: return self.createUpcomingSection()
+            case 1: return self.createLatestSection()
+            case 2: return self.createTeamsSection()
+            default: return nil
             }
         }
+    }
+    
+    private func createUpcomingSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.85), heightDimension: .absolute(220))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
+        section.boundarySupplementaryItems = [createHeader()]
+        return section
+    }
+    
+    private func createLatestSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
+        section.boundarySupplementaryItems = [createHeader()]
+        return section
+    }
+    
+    private func createTeamsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(110), heightDimension: .absolute(130))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
+        section.boundarySupplementaryItems = [createHeader()]
+        return section
     }
     
     private func createHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
         return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
     }
-}
 
-extension LeagueDetailsViewController: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
@@ -124,17 +137,14 @@ extension LeagueDetailsViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingEventCell.identifier, for: indexPath) as! UpcomingEventCell
             cell.configure(with: presenter.upcomingEvents[indexPath.row])
             return cell
-            
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LatestEventCell.identifier, for: indexPath) as! LatestEventCell
             cell.configure(with: presenter.latestEvents[indexPath.row])
             return cell
-            
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TeamCell.identifier, for: indexPath) as! TeamCell
             cell.configure(with: presenter.teams[indexPath.row])
             return cell
-            
         default:
             return UICollectionViewCell()
         }
@@ -156,9 +166,7 @@ extension LeagueDetailsViewController: UICollectionViewDataSource {
         
         return header
     }
-}
 
-extension LeagueDetailsViewController: LeagueDetailsViewProtocol {
     func reloadData() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -176,6 +184,22 @@ extension LeagueDetailsViewController: LeagueDetailsViewProtocol {
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
             self.collectionView.isHidden = false
+        }
+    }
+    
+    func updateFavoriteButton(isFavorite: Bool) {
+        DispatchQueue.main.async {
+            self.favButton.image = UIImage(systemName: isFavorite ? "star.fill" : "star")
+        }
+    }
+
+    func setupLeague(league: League) {
+        self.league = league
+    }
+
+    func showToast(message: String, icon: String) {
+        DispatchQueue.main.async {
+            self.showToast(message: message, iconName: icon)
         }
     }
 }

@@ -115,6 +115,9 @@
                     <navigationItem key="navigationItem" id="BT8-ea-uhG">
                         <barButtonItem key="rightBarButtonItem" id="v7N-BG-BF2">
                             <imageReference key="image" image="star" catalog="system" symbolScale="medium"/>
+                            <connections>
+                                <action selector="favButtonTapped:" destination="XhY-jI-kb7" id="kf3-I4-C0u"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>

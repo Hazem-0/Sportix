@@ -11,8 +11,10 @@ protocol LeagueDetailsPresenterProtocol: AnyObject {
     var upcomingEvents: [Fixture] { get }
     var latestEvents: [Fixture] { get }
     var teams: [TeamDetails] { get }
+    var isFavorite: Bool { get }
     
     func viewDidLoad()
+    func toggleFavorite(league: League)
 }
 
 class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
@@ -25,6 +27,10 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     var latestEvents: [Fixture] = []
     var teams: [TeamDetails] = []
     
+    var isFavorite: Bool {
+        return repo.isLeagueFavorite(id: leagueId)
+    }
+    
     init(view: LeagueDetailsViewProtocol, repo: SportixRepo = SportixRepoImp(), sport: Sport, leagueId: Int) {
         self.view = view
         self.repo = repo
@@ -36,6 +42,17 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         Task {
             await fetchLeagueDetails()
         }
+    }
+    
+    func toggleFavorite(league: League) {
+        if repo.isLeagueFavorite(id: leagueId) {
+            repo.removeFavLeague(id: leagueId)
+            view?.showToast(message: "Removed from favorites", icon: "trash.fill")
+        } else {
+            repo.saveFavLeague(league: league)
+            view?.showToast(message: "Added to favorites", icon: "checkmark.circle.fill")
+        }
+        view?.updateFavoriteButton(isFavorite: repo.isLeagueFavorite(id: leagueId))
     }
     
     @MainActor
@@ -55,7 +72,6 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             self.latestEvents = try await past
             self.teams = try await leagueTeams
             
-            print("\(upcomingEvents.count)")
             view?.reloadData()
         } catch {
             print(error.localizedDescription)

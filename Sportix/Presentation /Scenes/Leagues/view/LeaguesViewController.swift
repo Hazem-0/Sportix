@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class LeaguesViewController: UITableViewController {
+final class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
     
     var sport: Sport!
     
@@ -39,24 +39,12 @@ final class LeaguesViewController: UITableViewController {
     }
     
     private func setupNavigationTitle() {
-        let titleLabel = UILabel()
-        titleLabel.text = "Leagues"
-        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        titleLabel.textColor = AppTheme.Colors.textPrimary
-        titleLabel.textAlignment = .center
+        title = "Leagues"
         
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = sport.displayName
-        subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        subtitleLabel.textColor = AppTheme.Colors.primary
-        subtitleLabel.textAlignment = .center
-        
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 2
-        stackView.alignment = .center
-        
-        navigationItem.titleView = stackView
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: AppTheme.Colors.textPrimary,
+            .font: UIFont.systemFont(ofSize: 18, weight: .bold)
+        ]
     }
     
     private func setupBackButton() {
@@ -105,10 +93,6 @@ final class LeaguesViewController: UITableViewController {
     private func hideTableBackgroundMessage() {
         tableView.backgroundView = nil
     }
-}
-
-
-extension LeaguesViewController: LeaguesViewProtocol {
     
     func showLoading() {
         let spinner = UIActivityIndicatorView(style: .large)
@@ -142,25 +126,24 @@ extension LeaguesViewController: LeaguesViewProtocol {
     }
     
     func navigateToLeagueDetails(leagueId: Int, leagueName: String, sport: Sport) {
-       
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
-                    let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
-                    detailsVC.sport = self.sport
-                    detailsVC.leagueId = leagueId
-                    navigationController?.pushViewController(detailsVC, animated: true)
-                    return
-                }
-
-                detailsVC.sport = self.sport
-                detailsVC.leagueId = leagueId
-                navigationController?.pushViewController(detailsVC, animated: true)
+        let selectedLeague = leagues.first { $0.id == leagueId }
         
-    }
-}
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController else {
+            let detailsVC = LeagueDetailsViewController(nibName: "LeagueDetailsViewController", bundle: nil)
+            detailsVC.sport = self.sport
+            detailsVC.leagueId = leagueId
+            detailsVC.league = selectedLeague
+            navigationController?.pushViewController(detailsVC, animated: true)
+            return
+        }
 
-extension LeaguesViewController {
-    
+        detailsVC.sport = self.sport
+        detailsVC.leagueId = leagueId
+        detailsVC.league = selectedLeague
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+
     override func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
