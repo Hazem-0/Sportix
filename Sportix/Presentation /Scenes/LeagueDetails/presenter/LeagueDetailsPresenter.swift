@@ -7,10 +7,28 @@
 
 import Foundation
 
+enum LeagueDetailsSection: Int, CaseIterable {
+    case upcoming = 0
+    case latest
+    case teams
+
+    var title: String {
+        switch self {
+        case .upcoming: return "Upcoming Events"
+        case .latest:   return "Latest Events"
+        case .teams:    return "Teams"
+        }
+    }
+}
+
 protocol LeagueDetailsPresenterProtocol: AnyObject {
-    var upcomingEvents: [Fixture] { get }
-    var latestEvents: [Fixture] { get }
-    var teams: [TeamDetails] { get }
+    var visibleSections: [LeagueDetailsSection] { get }
+
+    func upcomingEvents(for section: LeagueDetailsSection) -> [Fixture]
+    func latestEvents(for section: LeagueDetailsSection) -> [Fixture]
+    func teams(for section: LeagueDetailsSection) -> [TeamDetails]
+    func numberOfItems(in section: LeagueDetailsSection) -> Int
+
     var isFavorite: Bool { get }
 
     func viewDidLoad()
@@ -19,16 +37,20 @@ protocol LeagueDetailsPresenterProtocol: AnyObject {
 
 class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
 
-    weak var view: LeagueDetailsViewProtocol?
+    private weak var view: LeagueDetailsViewProtocol?
     private let repo: SportixRepo
     private let league: League
 
-    var upcomingEvents: [Fixture] = []
-    var latestEvents: [Fixture] = []
-    var teams: [TeamDetails] = []
+    private var upcomingEventsData: [Fixture] = []
+    private var latestEventsData: [Fixture] = []
+    private var teamsData: [TeamDetails] = []
+
+    var visibleSections: [LeagueDetailsSection] {
+        LeagueDetailsSection.allCases.filter { numberOfItems(in: $0) > 0 }
+    }
 
     var isFavorite: Bool {
-        return repo.isLeagueFavorite(id: league.id)
+        repo.isLeagueFavorite(id: league.id)
     }
 
     init(
@@ -41,10 +63,28 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         self.repo = repo
     }
 
-    func viewDidLoad() {
-        Task {
-            await fetchLeagueDetails()
+    func upcomingEvents(for section: LeagueDetailsSection) -> [Fixture] {
+        section == .upcoming ? upcomingEventsData : []
+    }
+
+    func latestEvents(for section: LeagueDetailsSection) -> [Fixture] {
+        section == .latest ? latestEventsData : []
+    }
+
+    func teams(for section: LeagueDetailsSection) -> [TeamDetails] {
+        section == .teams ? teamsData : []
+    }
+
+    func numberOfItems(in section: LeagueDetailsSection) -> Int {
+        switch section {
+        case .upcoming: return upcomingEventsData.count
+        case .latest:   return latestEventsData.count
+        case .teams:    return teamsData.count
         }
+    }
+
+    func viewDidLoad() {
+        Task { await fetchLeagueDetails() }
     }
 
     func toggleFavorite() {
@@ -55,30 +95,26 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             repo.saveFavLeague(league: league)
             view?.showToast(message: "Added to favorites", icon: "checkmark.circle.fill")
         }
-        view?.updateFavoriteButton(isFavorite: repo.isLeagueFavorite(id: league.id))
+        view?.updateFavoriteButton(isFavorite: isFavorite)
     }
 
     @MainActor
     private func fetchLeagueDetails() async {
         view?.showLoading()
-
-        defer {
-            view?.hideLoading()
-        }
+        defer { view?.hideLoading() }
 
         do {
-            async let upcoming = repo.fetchUpcomingFixtures(sport: league.sport, leagueId: league.id)
-            async let past = repo.fetchPastFixtures(sport: league.sport, leagueId: league.id)
-            async let leagueTeams = repo.fetchTeams(sport: league.sport, leagueId: league.id)
+            async let upcoming     = repo.fetchUpcomingFixtures(sport: league.sport, leagueId: league.id)
+            async let past         = repo.fetchPastFixtures(sport: league.sport, leagueId: league.id)
+            async let leagueTeams  = repo.fetchTeams(sport: league.sport, leagueId: league.id)
 
-            self.upcomingEvents = try await upcoming
-            self.latestEvents = try await past
-            self.teams = try await leagueTeams
-
-            view?.reloadData()
+            upcomingEventsData = try await upcoming
+            latestEventsData   = try await past
+            teamsData          = try await leagueTeams
         } catch {
             print(error.localizedDescription)
-            view?.reloadData()
         }
+
+        view?.reloadData()
     }
 }
