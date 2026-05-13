@@ -20,10 +20,11 @@ final class SportsPresenter {
     private let reachability: ReachabilityManager = .shared
     private var sports: [Sport] = []
     
-    init(view: SportsViewProtocol
-) {
+    let repo: SportixRepoImp
+    
+    init(view: SportsViewProtocol, repo: SportixRepoImp = SportixRepoImp()) {
         self.view = view
-       
+        self.repo = repo
     }
 
     func viewDidLoad() {
@@ -36,11 +37,9 @@ final class SportsPresenter {
 
         let selectedSport = sports[index]
         guard reachability.isConnected else {
-                    view?.showNoInternetAlert()
-                    return
-                }
+            view?.showNoInternetAlert()
+            return
+        }
         view?.navigateToLeagues(with: selectedSport)
-            }
-        
     }
-
+}

@@ -21,8 +21,15 @@ final class SportsViewController: UIViewController {
         setupPresenter()
         setupUI()
         setupCollectionView()
+        setupThemeToggleButton()
 
         presenter.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AppTheme.ThemeManager.applySavedTheme(to: view.window, repo: presenter.repo)
+        updateThemeIcon()
     }
 
     private func setupPresenter() {
@@ -35,7 +42,34 @@ final class SportsViewController: UIViewController {
         screenTitleLabel.text = "Sports"
         screenTitleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         screenTitleLabel.textColor = AppTheme.Colors.textPrimary
-
+    }
+    
+    private func setupThemeToggleButton() {
+        let themeButton = UIBarButtonItem(
+            image: nil,
+            style: .plain,
+            target: self,
+            action: #selector(toggleTheme)
+        )
+        themeButton.tintColor = AppTheme.Colors.textPrimary
+        navigationItem.rightBarButtonItem = themeButton
+        updateThemeIcon()
+    }
+    
+    private func updateThemeIcon() {
+        navigationItem.rightBarButtonItem?.image = AppTheme.ThemeManager.currentIcon(
+            in: view.window,
+            currentTrait: traitCollection.userInterfaceStyle
+        )
+    }
+    
+    @objc private func toggleTheme() {
+        let newIcon = AppTheme.ThemeManager.toggle(
+            in: view.window,
+            currentTrait: traitCollection.userInterfaceStyle,
+            repo: presenter.repo
+        )
+        navigationItem.rightBarButtonItem?.image = newIcon
     }
     
     private func setupCollectionView() {
@@ -66,9 +100,8 @@ final class SportsViewController: UIViewController {
 
 extension SportsViewController: SportsViewProtocol {
     func showNoInternetAlert() {
-           showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
-       }
-    
+        showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
+    }
 
     func showSports(_ sports: [Sport]) {
         displayedSports = sports
@@ -80,14 +113,12 @@ extension SportsViewController: SportsViewProtocol {
         displayedSports = []
         collectionView.reloadData()
         collectionView.isHidden = true
-
     }
     
     func navigateToLeagues(with sport: Sport) {
         guard let leaguesViewController = storyboard?.instantiateViewController(
             withIdentifier: "LeaguesViewController"
         ) as? LeaguesViewController else {
-            print("Could not find LeaguesViewController")
             return
         }
 
