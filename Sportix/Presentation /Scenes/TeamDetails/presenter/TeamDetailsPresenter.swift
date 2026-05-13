@@ -30,13 +30,19 @@ final class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
     private var team: TeamDetails?
     private var loadTask: Task<Void, Never>?
 
+    private var hasSquad: Bool {
+        return !(team?.players.isEmpty ?? true)
+    }
+
     init(
         sport: Sport,
         teamId: Int,
+        view: TeamDetailsViewProtocol,
         repo: SportixRepo = SportixRepoImp()
     ) {
         self.sport = sport
         self.teamId = teamId
+        self.view = view
         self.repo = repo
     }
 
@@ -50,10 +56,10 @@ final class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
 
     func getNumberOfSections() -> Int {
         guard team != nil else {
-                return 0
-            }
+            return 0
+        }
 
-            return 2
+        return hasSquad ? 2 : 1
     }
 
     func getNumberOfRows(in section: Int) -> Int {
@@ -63,6 +69,10 @@ final class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
 
         if section == 0 {
             return 1
+        }
+
+        guard hasSquad else {
+            return 0
         }
 
         return team.players.count + 1

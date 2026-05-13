@@ -12,6 +12,7 @@ final class SquadPlayerTableViewCell: UITableViewCell {
 
     static let identifier = "SquadPlayerTableViewCell"
 
+    private let playerPlaceholderImage = UIImage(named: "placeholderPlayer")
     @IBOutlet weak var playerImageView: UIImageView!
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -36,9 +37,10 @@ final class SquadPlayerTableViewCell: UITableViewCell {
         super.prepareForReuse()
 
         playerImageView.sd_cancelCurrentImageLoad()
-        playerImageView.image = UIImage(systemName: "person.crop.circle")
+        playerImageView.image = playerPlaceholderImage
 
         numberLabel.text = nil
+        numberLabel.isHidden = false
         nameLabel.text = nil
         positionLabel.text = nil
         statusLabel.text = nil
@@ -53,8 +55,7 @@ final class SquadPlayerTableViewCell: UITableViewCell {
         playerImageView.contentMode = .scaleAspectFill
         playerImageView.clipsToBounds = true
         playerImageView.backgroundColor = AppTheme.Colors.card
-        playerImageView.tintColor = AppTheme.Colors.primary
-        playerImageView.image = UIImage(systemName: "person.crop.circle")
+        playerImageView.image = playerPlaceholderImage
 
         numberLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         numberLabel.textColor = AppTheme.Colors.primary
@@ -82,7 +83,7 @@ final class SquadPlayerTableViewCell: UITableViewCell {
     func configure(with player: Player) {
         setPlayerImage(from: player.imageName)
 
-        numberLabel.text = player.number
+        configurePlayerNumber(player.number)
         nameLabel.text = player.name
         positionLabel.text = player.position
 
@@ -96,22 +97,50 @@ final class SquadPlayerTableViewCell: UITableViewCell {
             statusLabel.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.12)
         }
     }
+    
+    private func configurePlayerNumber(_ number: String) {
+        let cleanNumber = number.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        if cleanNumber.isEmpty {
+            numberLabel.text = nil
+            numberLabel.isHidden = true
+        } else {
+            numberLabel.text = cleanNumber
+            numberLabel.isHidden = false
+        }
+    }
 
     private func setPlayerImage(from imagePath: String) {
-        let placeholder = UIImage(systemName: "person.crop.circle")
+        let placeholder = playerPlaceholderImage
 
-        guard !imagePath.isEmpty else {
+        let cleanImagePath = imagePath.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        guard !cleanImagePath.isEmpty else {
             playerImageView.image = placeholder
             return
         }
 
-        if imagePath.lowercased().hasPrefix("http") {
+        if cleanImagePath.lowercased().hasPrefix("http"),
+           let url = URL(string: cleanImagePath) {
+
             playerImageView.sd_setImage(
-                with: URL(string: imagePath),
-                placeholderImage: placeholder
-            )
+                with: url,
+                placeholderImage: placeholder,
+                options: [.continueInBackground, .retryFailed]
+            ) { [weak self] image, _, _, _ in
+                guard let self = self else { return }
+
+                if image == nil {
+                    self.playerImageView.image = placeholder
+                }
+            }
+
         } else {
-            playerImageView.image = UIImage(named: imagePath) ?? placeholder
+            playerImageView.image = UIImage(named: cleanImagePath) ?? placeholder
         }
     }
 }

@@ -12,7 +12,7 @@ final class SportsViewController: UIViewController {
     @IBOutlet weak var screenTitleLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
 
-    private let presenter = SportsPresenter()
+    private var presenter: SportsPresenter!
     private var displayedSports: [Sport] = []
 
     override func viewDidLoad() {
@@ -26,9 +26,9 @@ final class SportsViewController: UIViewController {
     }
 
     private func setupPresenter() {
-        presenter.view = self
+        presenter = SportsPresenter(view: self)
     }
-
+    
     private func setupUI() {
         view.backgroundColor = AppTheme.Colors.background
 

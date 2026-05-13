@@ -47,13 +47,11 @@ final class TeamDetailsViewController: UIViewController {
             return false
         }
 
-        let presenter = TeamDetailsPresenter(
+        presenter = TeamDetailsPresenter(
             sport: sport,
-            teamId: teamId
+            teamId: teamId,
+            view: self
         )
-
-        presenter.view = self
-        self.presenter = presenter
 
         return true
     }
