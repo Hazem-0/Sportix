@@ -35,11 +35,9 @@ class UpcomingEventCell: UICollectionViewCell {
         awayLogoImage.layer.cornerRadius = 32
         awayLogoImage.clipsToBounds = true
         
-        dateLabel.layer.cornerRadius = 14
-        dateLabel.clipsToBounds = true
-        dateLabel.backgroundColor = UIColor(red: 0.94, green: 0.95, blue: 0.96, alpha: 1.0)
-        dateLabel.textColor = UIColor(red: 0.45, green: 0.47, blue: 0.53, alpha: 1.0)
-        dateLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        dateLabel.backgroundColor = AppTheme.Colors.card
+        dateLabel.textColor = AppTheme.Colors.success
+        dateLabel.font = .systemFont(ofSize: 14, weight: .medium)
         
     }
     

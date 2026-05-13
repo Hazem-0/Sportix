@@ -33,6 +33,7 @@ protocol LeagueDetailsPresenterProtocol: AnyObject {
 
     func viewDidLoad()
     func toggleFavorite()
+    func didSelectTeam(at index: Int)
 }
 
 class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
@@ -40,7 +41,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     private weak var view: LeagueDetailsViewProtocol?
     private let repo: SportixRepo
     private let league: League
-
+    private let reachability : ReachabilityManager = .shared
     private var upcomingEventsData: [Fixture] = []
     private var latestEventsData: [Fixture] = []
     private var teamsData: [TeamDetails] = []
@@ -96,6 +97,18 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             view?.showToast(message: "Added to favorites", icon: "checkmark.circle.fill")
         }
         view?.updateFavoriteButton(isFavorite: isFavorite)
+    }
+    
+    func didSelectTeam(at index: Int) {
+        
+        
+        guard reachability.isConnected else {
+            view?.showNoInternetAlert()
+            return
+        }
+        guard index >= 0 && index < teamsData.count else { return }
+        let selectedTeam = teamsData[index]
+        view?.navigateToTeamDetails(sport: league.sport, teamId: selectedTeam.id)
     }
 
     @MainActor

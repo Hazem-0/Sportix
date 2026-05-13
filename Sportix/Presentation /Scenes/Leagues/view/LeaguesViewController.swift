@@ -14,7 +14,8 @@ protocol LeaguesViewProtocol: AnyObject {
     func reloadData()
     func showEmptyMessage(_ message: String)
     func showErrorMessage(_ message: String)
-
+    func showNoInternetAlert()
+    
     func navigateToLeagueDetails(
         league : League
     )
@@ -122,9 +123,13 @@ final class LeaguesViewController: UITableViewController {
 }
 
 
-// MARK: - LeaguesViewProtocol
 
 extension LeaguesViewController: LeaguesViewProtocol {
+    
+    func showNoInternetAlert() {
+        showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
+    }
+    
 
     func showLoading() {
         let spinner = UIActivityIndicatorView(style: .large)
