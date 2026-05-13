@@ -38,8 +38,10 @@ final class LeaguesViewController: UITableViewController {
     }
 
     private func setupPresenter() {
-        presenter = LeaguesPresenter(sport: sport)
-        (presenter as? LeaguesPresenter)?.view = self
+        presenter = LeaguesPresenter(
+            sport: sport,
+            view: self
+        )
     }
 
     private func setupUI() {

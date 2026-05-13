@@ -33,9 +33,11 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
 
     init(
         sport: Sport,
+        view: LeaguesViewProtocol,
         repo: SportixRepo = SportixRepoImp()
     ) {
         self.sport = sport
+        self.view = view
         self.repo = repo
     }
 

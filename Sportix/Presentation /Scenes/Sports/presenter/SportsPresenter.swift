@@ -18,6 +18,10 @@ final class SportsPresenter {
     weak var view: SportsViewProtocol?
 
     private var sports: [Sport] = []
+    
+    init(view: SportsViewProtocol) {
+        self.view = view
+    }
 
     func viewDidLoad() {
         sports = Sport.allSports

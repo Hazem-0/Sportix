@@ -19,7 +19,8 @@ extension PlayerResponse {
         
         return Player(
             imageName: image,
-            number: player_number?.isEmpty == false ? player_number! : "-",
+            number: player_number?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? "",
             name: player_name ?? "Unknown Player",
             position: player_type ?? "Unknown",
             isInjured: (player_injured ?? "").lowercased() == "yes"

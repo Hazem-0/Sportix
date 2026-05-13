@@ -66,24 +66,40 @@ final class LeagueTableViewCell: UITableViewCell {
     func configure(with league: League) {
         leagueNameLabel.text = league.name
         countryLabel.text = "  \(league.country.uppercased())  "
-        setBadgeImage(from: league.badge)
+        setBadgeImage(
+            from: league.badge,
+            fallbackSport: league.sport
+        )
     }
 
-    private func setBadgeImage(from badge: String) {
-        let placeholder = UIImage(systemName: "sportscourt")
+    private func setBadgeImage(from badge: String, fallbackSport: Sport) {
+        let fallbackImage = UIImage(named: fallbackSport.imageName)
+            ?? UIImage(systemName: "sportscourt")
 
-        guard !badge.isEmpty else {
-            badgeImageView.image = placeholder
+        let cleanBadge = badge.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !cleanBadge.isEmpty else {
+            badgeImageView.image = fallbackImage
             return
         }
 
-        if badge.lowercased().hasPrefix("http") {
+        if cleanBadge.lowercased().hasPrefix("http"),
+           let url = URL(string: cleanBadge) {
+
             badgeImageView.sd_setImage(
-                with: URL(string: badge),
-                placeholderImage: placeholder
-            )
+                with: url,
+                placeholderImage: fallbackImage,
+                options: [.continueInBackground, .retryFailed]
+            ) { [weak self] image, _, _, _ in
+                guard let self = self else { return }
+
+                if image == nil {
+                    self.badgeImageView.image = fallbackImage
+                }
+            }
+
         } else {
-            badgeImageView.image = UIImage(named: badge) ?? placeholder
+            badgeImageView.image = UIImage(named: cleanBadge) ?? fallbackImage
         }
     }
 }
