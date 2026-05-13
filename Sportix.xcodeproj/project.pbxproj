@@ -74,6 +74,9 @@
 		C77536092FAF30BF007DCF8A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77536082FAF30BF007DCF8A /* MainTabBarController.swift */; };
 		C775360D2FAF34C0007DCF8A /* SportCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C775360C2FAF34C0007DCF8A /* SportCollectionViewCell.swift */; };
 		C77EAB502FAF7FC400207053 /* LeaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77EAB4F2FAF7FC400207053 /* LeaguesViewController.swift */; };
+		C78BC1D22FB4AA7100E59C71 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BC1D12FB4AA7100E59C71 /* SplashViewController.swift */; };
+		C78BC1D42FB4AEA200E59C71 /* ball_playing.gif in Resources */ = {isa = PBXBuildFile; fileRef = C78BC1D32FB4AEA200E59C71 /* ball_playing.gif */; };
+		C78BC1D62FB4BAFE00E59C71 /* ball.gif in Resources */ = {isa = PBXBuildFile; fileRef = C78BC1D52FB4BADE00E59C71 /* ball.gif */; };
 		C78DDC442FAFC86E009D8C80 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78DDC432FAFC86E009D8C80 /* Player.swift */; };
 		C78DDC462FAFC8B1009D8C80 /* TeamDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78DDC452FAFC8B1009D8C80 /* TeamDetails.swift */; };
 		C78DDC492FAFCC8C009D8C80 /* TeamHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78DDC472FAFCC8C009D8C80 /* TeamHeaderTableViewCell.swift */; };
@@ -174,6 +177,9 @@
 		C77536082FAF30BF007DCF8A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		C775360C2FAF34C0007DCF8A /* SportCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportCollectionViewCell.swift; sourceTree = "<group>"; };
 		C77EAB4F2FAF7FC400207053 /* LeaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesViewController.swift; sourceTree = "<group>"; };
+		C78BC1D12FB4AA7100E59C71 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		C78BC1D32FB4AEA200E59C71 /* ball_playing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ball_playing.gif; sourceTree = "<group>"; };
+		C78BC1D52FB4BADE00E59C71 /* ball.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ball.gif; sourceTree = "<group>"; };
 		C78DDC432FAFC86E009D8C80 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		C78DDC452FAFC8B1009D8C80 /* TeamDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetails.swift; sourceTree = "<group>"; };
 		C78DDC472FAFCC8C009D8C80 /* TeamHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -248,6 +254,8 @@
 		5128EB3F2FAA179B003FD4F6 /* Sportix */ = {
 			isa = PBXGroup;
 			children = (
+				C78BC1D52FB4BADE00E59C71 /* ball.gif */,
+				C78BC1D32FB4AEA200E59C71 /* ball_playing.gif */,
 				C7556C952FAA42E900F9A536 /* Utils */,
 				C7556C942FAA42CF00F9A536 /* Presentation  */,
 				517E579C2FABBAE000A9D2ED /* Domain */,
@@ -260,6 +268,7 @@
 				5128EB4E2FAA179D003FD4F6 /* LaunchScreen.storyboard */,
 				5128EB512FAA179D003FD4F6 /* Info.plist */,
 				C73FE3D72FB225B100CBE019 /* Config.xcconfig */,
+				C78BC1D12FB4AA7100E59C71 /* SplashViewController.swift */,
 			);
 			path = Sportix;
 			sourceTree = "<group>";
@@ -763,8 +772,10 @@
 				C78DDC4A2FAFCC8C009D8C80 /* TeamHeaderTableViewCell.xib in Resources */,
 				C77536062FAF2D06007DCF8A /* SportCollectionViewCell.xib in Resources */,
 				51E5B1012FB163F50041342D /* LatestEventCell.xib in Resources */,
+				C78BC1D62FB4BAFE00E59C71 /* ball.gif in Resources */,
 				51E5B1052FB166400041342D /* TeamCell.xib in Resources */,
 				5128EB502FAA179D003FD4F6 /* LaunchScreen.storyboard in Resources */,
+				C78BC1D42FB4AEA200E59C71 /* ball_playing.gif in Resources */,
 				C79302F42FAF75E1004A0F90 /* LeagueTableViewCell.xib in Resources */,
 				51CB572F2FAE4BD700D4338B /* FavoriteCell.xib in Resources */,
 				C78DDC522FAFD26E009D8C80 /* SquadPlayerTableViewCell.xib in Resources */,
@@ -819,6 +830,7 @@
 				513C31602FAE2909008B1D96 /* LeaguesPresenter.swift in Sources */,
 				51E5B0FA2FB15A160041342D /* UpcomingEventCell.swift in Sources */,
 				517231CE2FB0BF1E00EBD954 /* NetworkManager.swift in Sources */,
+				C78BC1D22FB4AA7100E59C71 /* SplashViewController.swift in Sources */,
 				51E5B0F62FB155330041342D /* LeagueDetailsViewController.swift in Sources */,
 				513C31452FAE2685008B1D96 /* Sportix.xcdatamodeld in Sources */,
 				513C31682FAE294D008B1D96 /* SportsPresenter.swift in Sources */,

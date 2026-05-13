@@ -16,32 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        guard let windowScene = scene as? UIWindowScene else {
+        guard let _ = scene as? UIWindowScene else {
             return
         }
-
-        let window = UIWindow(windowScene: windowScene)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let appRepository: SportixRepo = SportixRepoImp()
-
-        if appRepository.hasSeenOnboarding() {
-            let tabBarController = storyboard.instantiateViewController(
-                withIdentifier: "MainTabBarController"
-            )
-
-            window.rootViewController = tabBarController
-        } else {
-            let onboardingNavigationController = storyboard.instantiateViewController(
-                withIdentifier: "OnboardingNavigationController"
-            )
-
-            window.rootViewController = onboardingNavigationController
-        }
-
-        self.window = window
-        window.makeKeyAndVisible()
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
