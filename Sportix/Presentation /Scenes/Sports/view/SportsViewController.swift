@@ -65,6 +65,10 @@ final class SportsViewController: UIViewController {
 }
 
 extension SportsViewController: SportsViewProtocol {
+    func showNoInternetAlert() {
+           showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
+       }
+    
 
     func showSports(_ sports: [Sport]) {
         displayedSports = sports

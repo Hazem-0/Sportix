@@ -12,6 +12,7 @@ protocol FavoritesView: AnyObject {
     func showEmptyState()
     func navigateToDetails(for league: League)
     func showDeleteConfirmation(leagueName: String, index: Int)
+    func showNoInternetAlert()
 }
 
 class FavoriteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FavoritesView {
@@ -132,4 +133,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, UITableView
             presenter.didTapDeleteLeague(at: indexPath.row)
         }
     }
+    func showNoInternetAlert() {
+            showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
+        }
 }

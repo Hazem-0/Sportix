@@ -12,14 +12,11 @@ import Foundation
 protocol LeaguesPresenterProtocol: AnyObject {
     func viewDidLoad()
     func refresh()
-
     func getSportName() -> String
     func getLeaguesCount() -> Int
     func getLeague(at index: Int) -> League?
-
     func didSelectLeague(at index: Int)
 }
-
 
 final class LeaguesPresenter: LeaguesPresenterProtocol {
 
@@ -27,6 +24,7 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
 
     private let sport: Sport
     private let repo: SportixRepo
+    private let reachability: ReachabilityManager = .shared
 
     private var leagues: [League] = []
     private var loadTask: Task<Void, Never>?
@@ -65,7 +63,6 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
         guard index >= 0, index < leagues.count else {
             return nil
         }
-
         return leagues[index]
     }
 
@@ -74,9 +71,12 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
             return
         }
 
-        view?.navigateToLeagueDetails(
-            league : selectedLeague
-        )
+        guard reachability.isConnected else {
+            view?.showNoInternetAlert()
+            return
+        }
+        
+        view?.navigateToLeagueDetails(league: selectedLeague)
     }
 
     private func loadLeagues() {
@@ -96,9 +96,8 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
                     return
                 }
 
-                self.leagues = fetchedLeagues
-
                 await MainActor.run {
+                    self.leagues = fetchedLeagues
                     self.view?.hideLoading()
 
                     if fetchedLeagues.isEmpty {
@@ -116,9 +115,8 @@ final class LeaguesPresenter: LeaguesPresenterProtocol {
                 print("Leagues Error Full:", error)
                 print("Leagues Error Description:", error.localizedDescription)
 
-                self.leagues = []
-
                 await MainActor.run {
+                    self.leagues = []
                     self.view?.hideLoading()
                     self.view?.showErrorMessage("Couldn't load leagues. Please try again.")
                 }

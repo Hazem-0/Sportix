@@ -13,6 +13,8 @@ protocol LeagueDetailsViewProtocol: AnyObject {
     func hideLoading()
     func updateFavoriteButton(isFavorite: Bool)
     func showToast(message: String, icon: String)
+    func showNoInternetAlert()
+    func navigateToTeamDetails(sport: Sport, teamId: Int)
 }
 
 class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, LeagueDetailsViewProtocol {
@@ -34,13 +36,18 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = league.name  
+        title = league.name
         applyTheme()
         setupLoadingIndicator()
         setupCollectionView()
         bootstrapPresenter()
         updateFavoriteButton(isFavorite: presenter.isFavorite)
         presenter.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateFavoriteButton(isFavorite: presenter.isFavorite)
     }
 
     @IBAction private func favButtonTapped(_ sender: UIBarButtonItem) {
@@ -59,11 +66,6 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        updateFavoriteButton(isFavorite: presenter.isFavorite)
     }
 
     private func setupCollectionView() {
@@ -98,7 +100,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     private func makeUpcomingSection() -> NSCollectionLayoutSection {
-        let item  = NSCollectionLayoutItem(
+        let item = NSCollectionLayoutItem(
             layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         )
         let group = NSCollectionLayoutGroup.horizontal(
@@ -109,7 +111,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     private func makeLatestSection() -> NSCollectionLayoutSection {
-        let item  = NSCollectionLayoutItem(
+        let item = NSCollectionLayoutItem(
             layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         )
         let group = NSCollectionLayoutGroup.vertical(
@@ -120,7 +122,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     private func makeTeamsSection() -> NSCollectionLayoutSection {
-        let item  = NSCollectionLayoutItem(
+        let item = NSCollectionLayoutItem(
             layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         )
         let group = NSCollectionLayoutGroup.horizontal(
@@ -173,7 +175,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        presenter.visibleSections.count
+        return presenter.visibleSections.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -194,6 +196,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
                 let cell: UpcomingEventCell = dequeueCell(from: collectionView, withReuseIdentifier: UpcomingEventCell.identifier, for: indexPath),
                 indexPath.row < events.count
             else { return UICollectionViewCell() }
+            
             cell.configure(with: events[indexPath.row])
             return cell
 
@@ -203,6 +206,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
                 let cell: LatestEventCell = dequeueCell(from: collectionView, withReuseIdentifier: LatestEventCell.identifier, for: indexPath),
                 indexPath.row < events.count
             else { return UICollectionViewCell() }
+            
             cell.configure(with: events[indexPath.row])
             return cell
 
@@ -212,6 +216,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
                 let cell: TeamCell = dequeueCell(from: collectionView, withReuseIdentifier: TeamCell.identifier, for: indexPath),
                 indexPath.row < teams.count
             else { return UICollectionViewCell() }
+            
             cell.configure(with: teams[indexPath.row])
             return cell
         }
@@ -236,23 +241,10 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        guard presenter.visibleSections[indexPath.section] == .teams else { return }
-
-        let teams = presenter.teams(for: .teams)
-        guard indexPath.row < teams.count else { return }
-        
-        let selectedTeam = teams[indexPath.row]
-
-        guard let teamDetailsVC = storyboard?.instantiateViewController(
-            withIdentifier: "TeamDetailsViewController"
-        ) as? TeamDetailsViewController else {
-            assertionFailure("TeamDetailsViewController not found in storyboard.")
-            return
+        let section = presenter.visibleSections[indexPath.section]
+        if section == .teams {
+            presenter.didSelectTeam(at: indexPath.row)
         }
-
-        teamDetailsVC.sport  = sport
-        teamDetailsVC.teamId = selectedTeam.id
-        navigationController?.pushViewController(teamDetailsVC, animated: true)
     }
 
     func reloadData() {
@@ -271,11 +263,28 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     func updateFavoriteButton(isFavorite: Bool) {
-        favButton.image       = UIImage(systemName: isFavorite ? "star.fill" : "star")
-        favButton.tintColor   = isFavorite ? AppTheme.Colors.favorite : AppTheme.Colors.primary
+        favButton.image     = UIImage(systemName: isFavorite ? "star.fill" : "star")
+        favButton.tintColor = isFavorite ? AppTheme.Colors.favorite : AppTheme.Colors.primary
     }
 
     func showToast(message: String, icon: String) {
-        showToast(message: message, iconName: icon)
+        
+    }
+
+    func showNoInternetAlert() {
+        showAlert(title: "No Internet", message: "Please check your connection and try again.", type: .error)
+    }
+    
+    func navigateToTeamDetails(sport: Sport, teamId: Int) {
+        guard let teamDetailsVC = storyboard?.instantiateViewController(
+            withIdentifier: "TeamDetailsViewController"
+        ) as? TeamDetailsViewController else {
+            assertionFailure("TeamDetailsViewController not found in storyboard.")
+            return
+        }
+
+        teamDetailsVC.sport  = sport
+        teamDetailsVC.teamId = teamId
+        navigationController?.pushViewController(teamDetailsVC, animated: true)
     }
 }
