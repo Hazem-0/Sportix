@@ -70,7 +70,6 @@
 		C74531892FAA830D00E492B1 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74531882FAA830D00E492B1 /* OnboardingViewController.swift */; };
 		C7552FAD2FB0ED70009A55C3 /* Sport+APIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7552FAC2FB0ED70009A55C3 /* Sport+APIPath.swift */; };
 		C7552FAF2FB0EDC6009A55C3 /* LeaguesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7552FAE2FB0EDC6009A55C3 /* LeaguesEndpoint.swift */; };
-		C7552FB12FB0EE44009A55C3 /* LeagueResponse+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */; };
 		C7552FB32FB0EF24009A55C3 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7552FB22FB0EF24009A55C3 /* NetworkError.swift */; };
 		C77536022FAF2B74007DCF8A /* SportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77536012FAF2B73007DCF8A /* SportsViewController.swift */; };
 		C77536062FAF2D06007DCF8A /* SportCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77536042FAF2D06007DCF8A /* SportCollectionViewCell.xib */; };
@@ -112,7 +111,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5128EB3D2FAA179B003FD4F6 /* Sportix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sportix.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5128EB3D2FAA179B003FD4F6 /* Sportix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Sportix.app; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/Sportix.app"; sourceTree = "<absolute>"; };
 		5128EB402FAA179B003FD4F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5128EB422FAA179B003FD4F6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5128EB442FAA179B003FD4F6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -120,9 +119,9 @@
 		5128EB4C2FAA179D003FD4F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5128EB4F2FAA179D003FD4F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5128EB512FAA179D003FD4F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5128EB562FAA179D003FD4F6 /* SportixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5128EB562FAA179D003FD4F6 /* SportixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SportixTests.xctest; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/SportixTests.xctest"; sourceTree = "<absolute>"; };
 		5128EB5A2FAA179D003FD4F6 /* SportixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixTests.swift; sourceTree = "<group>"; };
-		5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SportixUITests.xctest; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/SportixUITests.xctest"; sourceTree = "<absolute>"; };
 		5128EB642FAA179D003FD4F6 /* SportixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITests.swift; sourceTree = "<group>"; };
 		5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		513C313D2FAE23FE008B1D96 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -175,7 +174,6 @@
 		C74531882FAA830D00E492B1 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		C7552FAC2FB0ED70009A55C3 /* Sport+APIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sport+APIPath.swift"; sourceTree = "<group>"; };
 		C7552FAE2FB0EDC6009A55C3 /* LeaguesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesEndpoint.swift; sourceTree = "<group>"; };
-		C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "LeagueResponse+Mapping.swift"; path = "Sportix/Data/Mapper/LeagueResponse+Mapping.swift"; sourceTree = "<group>"; };
 		C7552FB22FB0EF24009A55C3 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C77536012FAF2B73007DCF8A /* SportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsViewController.swift; sourceTree = "<group>"; };
 		C77536042FAF2D06007DCF8A /* SportCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SportCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -228,12 +226,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		510492D62FB209B900BE7687 /* Recovered References */ = {
+		510B5F352FB51B5400BB13AD /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				C7552FB02FB0EE44009A55C3 /* LeagueResponse+Mapping.swift */,
+				C78BC1D12FB4AA7100E59C71 /* SplashViewController.swift */,
 			);
-			name = "Recovered References";
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		5128EB342FAA179B003FD4F6 = {
@@ -242,19 +240,7 @@
 				5128EB3F2FAA179B003FD4F6 /* Sportix */,
 				5128EB592FAA179D003FD4F6 /* SportixTests */,
 				5128EB632FAA179D003FD4F6 /* SportixUITests */,
-				5128EB3E2FAA179B003FD4F6 /* Products */,
-				510492D62FB209B900BE7687 /* Recovered References */,
 			);
-			sourceTree = "<group>";
-		};
-		5128EB3E2FAA179B003FD4F6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5128EB3D2FAA179B003FD4F6 /* Sportix.app */,
-				5128EB562FAA179D003FD4F6 /* SportixTests.xctest */,
-				5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		5128EB3F2FAA179B003FD4F6 /* Sportix */ = {
@@ -275,7 +261,6 @@
 				5128EB512FAA179D003FD4F6 /* Info.plist */,
 				518115D72FB50C10001C2CA5 /* splash_animation.json */,
 				C73FE3D72FB225B100CBE019 /* Config.xcconfig */,
-				C78BC1D12FB4AA7100E59C71 /* SplashViewController.swift */,
 			);
 			path = Sportix;
 			sourceTree = "<group>";
@@ -559,6 +544,7 @@
 		C7556C992FAA456400F9A536 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				510B5F352FB51B5400BB13AD /* Splash */,
 				C77536072FAF3098007DCF8A /* MainTabBar */,
 				C745317D2FAA757800E492B1 /* Onboarding */,
 				C745317C2FAA756900E492B1 /* TeamDetails */,
@@ -762,7 +748,7 @@
 				C74531752FAA73BE00E492B1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				518115D42FB50A85001C2CA5 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
-			productRefGroup = 5128EB3E2FAA179B003FD4F6 /* Products */;
+			productRefGroup = 5128EB342FAA179B003FD4F6;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -834,7 +820,6 @@
 				517231CC2FB0BEF600EBD954 /* EndpointProtocol.swift in Sources */,
 				51CB572E2FAE4BD700D4338B /* FavoriteCell.swift in Sources */,
 				518A5AD22FB0B94F00BE1B25 /* SportsResponse.swift in Sources */,
-				C7552FB12FB0EE44009A55C3 /* LeagueResponse+Mapping.swift in Sources */,
 				C7552FAF2FB0EDC6009A55C3 /* LeaguesEndpoint.swift in Sources */,
 				C78DDC442FAFC86E009D8C80 /* Player.swift in Sources */,
 				5128EB412FAA179B003FD4F6 /* AppDelegate.swift in Sources */,
