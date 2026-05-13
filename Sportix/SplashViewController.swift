@@ -39,7 +39,7 @@ final class SplashViewController: UIViewController {
 
     private func showGif() {
         guard let url = Bundle.main.url(
-            forResource: "ball",
+            forResource: "ball_playing",
             withExtension: "gif"
         ) else {
             print("ball_playing.gif not found")
