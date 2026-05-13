@@ -8,6 +8,8 @@
 import Foundation
 
 class SportixRepoImp: SportixRepo {
+  
+    
     
     private let appSettings: AppSettingsLocalDataSourceProtocol
     private let coreData: CoreDataManager
@@ -30,6 +32,14 @@ class SportixRepoImp: SportixRepo {
     
     func markOnboardingAsSeen() {
         appSettings.markOnboardingAsSeen()
+    }
+    
+    func getSavedTheme() -> Int {
+        appSettings.getSavedTheme()
+    }
+    
+    func saveTheme(themeType: Int) {
+        appSettings.saveTheme(themeType: themeType)
     }
     
     func saveFavLeague(league: League) {
