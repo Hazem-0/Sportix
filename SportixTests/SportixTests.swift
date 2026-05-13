@@ -5,92 +5,117 @@
 //  Created by Hazem Abdelraouf on 05/05/2026.
 //
 
+
 import XCTest
 @testable import Sportix
 
 class SportixTests: XCTestCase {
-    
-    var networkObj: NetworkManager!
 
-    
+    var networkManager: NetworkManager!
+
     override func setUpWithError() throws {
-        networkObj = NetworkManager.shared
+        networkManager = NetworkManager.shared
     }
 
     override func tearDownWithError() throws {
-        networkObj = nil
+        networkManager = nil
     }
-    
 
-  // MARK: - Success Tests
-  
-  func testFetchLeaguesFromApi() {
-      let ex = expectation(description: "load leagues from api")
-      
-      Task {
-          do {
-              let leagues = try await networkObj.fetchLeagues(sport: .Football)
-              
-              XCTAssertNotNil(leagues)
-              XCTAssertGreaterThanOrEqual(leagues.count, 0)
-              
-          } catch {
-              XCTFail("Expected success but got error: \(error)")
-          }
-          
-          ex.fulfill()
-      }
-      
-      waitForExpectations(timeout: 10)
-  }
-  
-  
-  
-  func testFetchTeamDetailsFromApi() {
-      let ex = expectation(description: "load team details from api")
-      
-      Task {
-          do {
-              let team = try await networkObj.fetchTeamDetails(
-                  sport: .Football,
-                  teamId: 2611
-              )
-              
-              XCTAssertNotNil(team)
-              
-          } catch {
-              XCTFail("Expected success but got error: \(error)")
-          }
-          
-          ex.fulfill()
-      }
-      
-      waitForExpectations(timeout: 10)
-  }
-  
-  // MARK: - Failure Tests
-  
-  
-  func testFetchTeamDetailsFromApi_Failure() {
-      let ex = expectation(description: "load team details failure from api")
-      
-      Task {
-          do {
-              let _ = try await networkObj.fetchTeamDetails(
-                  sport: .Football,
-                  teamId: -1
-              )
-              
-              XCTFail("Should fail with invalid team id")
-              
-          } catch {
-              XCTAssertNotNil(error)
-          }
-          
-          ex.fulfill()
-      }
-      
-      waitForExpectations(timeout: 10)
-  }
+    func testFetchSports_ReturnsEmpty() {
+        let ex = expectation(description: "fetchSports")
+        Task {
+            do {
+                let sports = try await networkManager.fetchSports()
+                XCTAssertTrue(sports.isEmpty)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchLeagues_Success() {
+        let ex = expectation(description: "fetchLeagues")
+        Task {
+            do {
+                let leagues = try await networkManager.fetchLeagues(sport: .Football)
+                XCTAssertFalse(leagues.isEmpty)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchTeams_Success() {
+        let ex = expectation(description: "fetchTeams")
+        Task {
+            do {
+                let teams = try await networkManager.fetchTeams(sport: .Football, leagueId: 152)
+                XCTAssertFalse(teams.isEmpty)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchTeamDetails_Success() {
+        let ex = expectation(description: "fetchTeamDetails")
+        Task {
+            do {
+                let team = try await networkManager.fetchTeamDetails(sport: .Football, teamId: 2611)
+                XCTAssertEqual(team.team_key, 2611)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchUpcomingFixtures_Success() {
+        let ex = expectation(description: "fetchUpcomingFixtures")
+        Task {
+            do {
+                let fixtures = try await networkManager.fetchUpcomingFixtures(sport: "football", leagueId: 152)
+                XCTAssertNotNil(fixtures)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchPastFixtures_Success() {
+        let ex = expectation(description: "fetchPastFixtures")
+        Task {
+            do {
+                let fixtures = try await networkManager.fetchPastFixtures(sport: "football", leagueId: 152)
+                XCTAssertNotNil(fixtures)
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+
+    func testFetchTeamDetails_Failure_InvalidID() {
+        let ex = expectation(description: "fetchTeamDetails failure")
+        Task {
+            do {
+                _ = try await networkManager.fetchTeamDetails(sport: .Football, teamId: -9999)
+                XCTFail()
+            } catch {
+                XCTAssertNotNil(error)
+            }
+            ex.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
 }
-

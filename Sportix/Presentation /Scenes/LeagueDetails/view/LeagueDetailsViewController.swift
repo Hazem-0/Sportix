@@ -268,7 +268,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     func showToast(message: String, icon: String) {
-        
+        showToast(message: message, iconName: icon)
     }
 
     func showNoInternetAlert() {

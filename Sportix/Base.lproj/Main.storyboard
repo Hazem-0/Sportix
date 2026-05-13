@@ -390,26 +390,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FgZ-01-pFb" customClass="SDAnimatedImageView">
-                                <rect key="frame" x="25" y="152" width="340" height="460"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="340" id="VaF-Y4-waP"/>
-                                    <constraint firstAttribute="height" constant="460" id="XQz-zv-dxD"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DEj-NR-Lh4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="FgZ-01-pFb" firstAttribute="centerX" secondItem="pwf-BC-dbl" secondAttribute="centerX" id="7hk-J3-9BC"/>
                             <constraint firstItem="98V-Ph-X54" firstAttribute="leading" secondItem="DEj-NR-Lh4" secondAttribute="leading" constant="24" id="9zi-pa-AWC"/>
-                            <constraint firstItem="FgZ-01-pFb" firstAttribute="centerY" secondItem="pwf-BC-dbl" secondAttribute="centerY" constant="-40" id="Dfx-bg-sYa"/>
                             <constraint firstItem="DEj-NR-Lh4" firstAttribute="trailing" secondItem="98V-Ph-X54" secondAttribute="trailing" constant="24" id="I6D-U7-Pxo"/>
-                            <constraint firstItem="98V-Ph-X54" firstAttribute="top" secondItem="FgZ-01-pFb" secondAttribute="bottom" constant="20" id="fPk-be-EeK"/>
+                            <constraint firstItem="98V-Ph-X54" firstAttribute="top" secondItem="DEj-NR-Lh4" secondAttribute="top" constant="588" id="Se7-Nh-fT4"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="animationImageView" destination="FgZ-01-pFb" id="SHG-q0-8yA"/>
                         <outlet property="appNameLabel" destination="98V-Ph-X54" id="Vnt-xS-nO8"/>
                     </connections>
                 </viewController>

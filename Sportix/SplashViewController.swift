@@ -2,34 +2,27 @@
 //  SplashViewController.swift
 //  Sportix
 //
-//  Created by Aalaa Adel on 13/05/2026.
+//  Created by Hazem Abdelraouf on 13/05/2026.
 //
 
 import UIKit
-import SDWebImage
+import Lottie
 
 final class SplashViewController: UIViewController {
 
-    @IBOutlet weak var animationImageView: SDAnimatedImageView!
     @IBOutlet weak var appNameLabel: UILabel!
 
     private let appSettings: AppSettingsLocalDataSourceProtocol = AppSettingsLocalDataSource()
-
-    private let splashDuration: TimeInterval = 7.5
+    private var animationView: LottieAnimationView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        showGif()
-        navigateAfterDelay()
+        setupLottieAnimation()
     }
 
     private func setupUI() {
         view.backgroundColor = AppTheme.Colors.background
-
-        animationImageView.contentMode = .scaleAspectFit
-        animationImageView.clipsToBounds = true
 
         appNameLabel.text = "Sportix"
         appNameLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
@@ -37,27 +30,29 @@ final class SplashViewController: UIViewController {
         appNameLabel.textAlignment = .center
     }
 
-    private func showGif() {
-        guard let url = Bundle.main.url(
-            forResource: "ball_playing",
-            withExtension: "gif"
-        ) else {
-            print("ball_playing.gif not found")
-            return
-        }
-
-        animationImageView.sd_setImage(with: url)
-    }
-
-    private func navigateAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + splashDuration) { [weak self] in
+    private func setupLottieAnimation() {
+        animationView = LottieAnimationView(name: "splash_animation")
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        
+        view.addSubview(animationView)
+        
+        NSLayoutConstraint.activate([
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            animationView.widthAnchor.constraint(equalToConstant: 250),
+            animationView.heightAnchor.constraint(equalToConstant: 250)
+        ])
+        
+        animationView.play { [weak self] _ in
             self?.goToNextScreen()
         }
     }
 
     private func goToNextScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
         let nextViewController: UIViewController
 
         if appSettings.hasSeenOnboarding() {
@@ -70,9 +65,7 @@ final class SplashViewController: UIViewController {
             )
         }
 
-        guard let window = view.window else {
-            return
-        }
+        guard let window = view.window else { return }
 
         UIView.transition(
             with: window,
