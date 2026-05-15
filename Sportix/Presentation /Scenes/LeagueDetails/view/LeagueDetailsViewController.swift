@@ -12,6 +12,7 @@ protocol LeagueDetailsViewProtocol: AnyObject {
     func showLoading()
     func hideLoading()
     func updateFavoriteButton(isFavorite: Bool)
+    func setFavoriteButton(enabled: Bool)
     func showToast(message: String, icon: String)
     func showNoInternetAlert()
     func navigateToTeamDetails(sport: Sport, teamId: Int)
@@ -40,7 +41,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         applyTheme()
         setupLoadingIndicator()
         setupCollectionView()
-        bootstrapPresenter()
+        attachView()
         updateFavoriteButton(isFavorite: presenter.isFavorite)
         presenter.viewDidLoad()
     }
@@ -72,17 +73,14 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         collectionView.register(UpcomingEventCell.nib, forCellWithReuseIdentifier: UpcomingEventCell.identifier)
         collectionView.register(LatestEventCell.nib,   forCellWithReuseIdentifier: LatestEventCell.identifier)
         collectionView.register(TeamCell.nib,          forCellWithReuseIdentifier: TeamCell.identifier)
-        collectionView.register(
-            SectionHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: SectionHeaderView.identifier
-        )
+        collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeaderView.identifier)
+        
         collectionView.delegate   = self
         collectionView.dataSource = self
         collectionView.collectionViewLayout = makeCompositionalLayout()
     }
 
-    private func bootstrapPresenter() {
+    private func attachView() {
         guard presenter == nil else { return }
         presenter = LeagueDetailsPresenter(view: self, league: league)
     }
@@ -100,42 +98,24 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
 
     private func makeUpcomingSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.90), heightDimension: .absolute(220)),
-            subitems: [item]
-        )
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.90), heightDimension: .absolute(220)), subitems: [item])
         return buildSection(group: group, orthogonal: .continuous)
     }
 
     private func makeLatestSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        )
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80)),
-            subitems: [item]
-        )
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80)), subitems: [item])
         return buildSection(group: group, orthogonal: .none)
     }
 
     private func makeTeamsSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        )
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: .init(widthDimension: .absolute(110), heightDimension: .absolute(130)),
-            subitems: [item]
-        )
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(110), heightDimension: .absolute(130)), subitems: [item])
         return buildSection(group: group, orthogonal: .continuous)
     }
 
-    private func buildSection(
-        group: NSCollectionLayoutGroup,
-        orthogonal scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior
-    ) -> NSCollectionLayoutSection {
+    private func buildSection(group: NSCollectionLayoutGroup, orthogonal scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = scrollBehavior
         section.interGroupSpacing           = AppTheme.Spacing.medium
@@ -157,20 +137,11 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         )
     }
 
-    private func dequeueCell<T: UICollectionViewCell>(
-        from collectionView: UICollectionView,
-        withReuseIdentifier id: String,
-        for indexPath: IndexPath
-    ) -> T? {
+    private func dequeueCell<T: UICollectionViewCell>(from collectionView: UICollectionView, withReuseIdentifier id: String, for indexPath: IndexPath) -> T? {
         return collectionView.dequeueReusableCell(withReuseIdentifier: id, for: indexPath) as? T
     }
 
-    private func dequeueSupplementary<T: UICollectionReusableView>(
-        from collectionView: UICollectionView,
-        ofKind kind: String,
-        withReuseIdentifier id: String,
-        for indexPath: IndexPath
-    ) -> T? {
+    private func dequeueSupplementary<T: UICollectionReusableView>(from collectionView: UICollectionView, ofKind kind: String, withReuseIdentifier id: String, for indexPath: IndexPath) -> T? {
         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as? T
     }
 
@@ -183,64 +154,39 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         return presenter.numberOfItems(in: leagueSection)
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = presenter.visibleSections[indexPath.section]
 
         switch section {
         case .upcoming:
             let events = presenter.upcomingEvents(for: section)
-            guard
-                let cell: UpcomingEventCell = dequeueCell(from: collectionView, withReuseIdentifier: UpcomingEventCell.identifier, for: indexPath),
-                indexPath.row < events.count
-            else { return UICollectionViewCell() }
-            
+            guard let cell: UpcomingEventCell = dequeueCell(from: collectionView, withReuseIdentifier: UpcomingEventCell.identifier, for: indexPath), indexPath.row < events.count else { return UICollectionViewCell() }
             cell.configure(with: events[indexPath.row])
             return cell
 
         case .latest:
             let events = presenter.latestEvents(for: section)
-            guard
-                let cell: LatestEventCell = dequeueCell(from: collectionView, withReuseIdentifier: LatestEventCell.identifier, for: indexPath),
-                indexPath.row < events.count
-            else { return UICollectionViewCell() }
-            
+            guard let cell: LatestEventCell = dequeueCell(from: collectionView, withReuseIdentifier: LatestEventCell.identifier, for: indexPath), indexPath.row < events.count else { return UICollectionViewCell() }
             cell.configure(with: events[indexPath.row])
             return cell
 
         case .teams:
             let teams = presenter.teams(for: section)
-            guard
-                let cell: TeamCell = dequeueCell(from: collectionView, withReuseIdentifier: TeamCell.identifier, for: indexPath),
-                indexPath.row < teams.count
-            else { return UICollectionViewCell() }
-            
+            guard let cell: TeamCell = dequeueCell(from: collectionView, withReuseIdentifier: TeamCell.identifier, for: indexPath), indexPath.row < teams.count else { return UICollectionViewCell() }
             cell.configure(with: teams[indexPath.row])
             return cell
         }
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-        guard
-            kind == UICollectionView.elementKindSectionHeader,
-            let header: SectionHeaderView = dequeueSupplementary(from: collectionView, ofKind: kind, withReuseIdentifier: SectionHeaderView.identifier, for: indexPath)
-        else { return UICollectionReusableView() }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader, let header: SectionHeaderView = dequeueSupplementary(from: collectionView, ofKind: kind, withReuseIdentifier: SectionHeaderView.identifier, for: indexPath) else { return UICollectionReusableView() }
 
         header.titleLabel.text      = presenter.visibleSections[indexPath.section].title
         header.titleLabel.textColor = AppTheme.Colors.textPrimary
         return header
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let section = presenter.visibleSections[indexPath.section]
         if section == .teams {
             presenter.didSelectTeam(at: indexPath.row)
@@ -267,6 +213,10 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
         favButton.tintColor = isFavorite ? AppTheme.Colors.favorite : AppTheme.Colors.primary
     }
 
+    func setFavoriteButton(enabled: Bool) {
+        favButton.isEnabled = enabled
+    }
+
     func showToast(message: String, icon: String) {
         showToast(message: message, iconName: icon)
     }
@@ -276,9 +226,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func navigateToTeamDetails(sport: Sport, teamId: Int) {
-        guard let teamDetailsVC = storyboard?.instantiateViewController(
-            withIdentifier: "TeamDetailsViewController"
-        ) as? TeamDetailsViewController else {
+        guard let teamDetailsVC = storyboard?.instantiateViewController(withIdentifier: "TeamDetailsViewController") as? TeamDetailsViewController else {
             assertionFailure("TeamDetailsViewController not found in storyboard.")
             return
         }

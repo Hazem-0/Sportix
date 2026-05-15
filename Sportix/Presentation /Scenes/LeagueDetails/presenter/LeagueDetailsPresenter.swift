@@ -5,6 +5,8 @@
 //  Created by Hazem Abdelraouf on 08/05/2026.
 //
 
+
+
 import Foundation
 
 enum LeagueDetailsSection: Int, CaseIterable {
@@ -54,11 +56,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         repo.isLeagueFavorite(id: league.id)
     }
 
-    init(
-        view: LeagueDetailsViewProtocol,
-        league: League,
-        repo: SportixRepo = SportixRepoImp()
-    ) {
+    init(view: LeagueDetailsViewProtocol, league: League, repo: SportixRepo = SportixRepoImp()) {
         self.view = view
         self.league = league
         self.repo = repo
@@ -100,8 +98,6 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     }
     
     func didSelectTeam(at index: Int) {
-        
-        
         guard reachability.isConnected else {
             view?.showNoInternetAlert()
             return
@@ -114,6 +110,8 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     @MainActor
     private func fetchLeagueDetails() async {
         view?.showLoading()
+        view?.setFavoriteButton(enabled: false)
+        
         defer { view?.hideLoading() }
 
         do {
@@ -122,8 +120,18 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             async let leagueTeams  = repo.fetchTeams(sport: league.sport, leagueId: league.id)
 
             upcomingEventsData = try await upcoming
-            latestEventsData   = try await past
-            teamsData          = try await leagueTeams
+            
+            let fetchedPastFixtures = try await past
+            latestEventsData = fetchedPastFixtures.filter { fixture in
+                let homeScore = fixture.homeTeamScore.trimmingCharacters(in: .whitespaces)
+                let awayScore = fixture.awayTeamScore.trimmingCharacters(in: .whitespaces)
+                
+                return !homeScore.isEmpty && !awayScore.isEmpty
+            }
+            
+            teamsData = try await leagueTeams
+            
+            view?.setFavoriteButton(enabled: true)
         } catch {
             print(error.localizedDescription)
         }

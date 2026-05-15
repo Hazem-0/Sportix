@@ -15,9 +15,11 @@ class LatestEventCell: UICollectionViewCell {
     
     @IBOutlet weak var homeLogoImage: UIImageView!
     @IBOutlet weak var homeTeamName: UILabel!
-    @IBOutlet weak var score: UILabel!
-    @IBOutlet weak var awayTeamName: UILabel!
+    @IBOutlet weak var homeScoreLabel: UILabel!
+    
     @IBOutlet weak var awayLogoImage: UIImageView!
+    @IBOutlet weak var awayTeamName: UILabel!
+    @IBOutlet weak var awayScoreLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,30 +32,28 @@ class LatestEventCell: UICollectionViewCell {
         contentView.backgroundColor = AppTheme.Colors.card
         
         homeLogoImage.contentMode = .scaleAspectFit
-        homeLogoImage.layer.cornerRadius = 16
+        homeLogoImage.layer.cornerRadius = 14
         homeLogoImage.clipsToBounds = true
         
         awayLogoImage.contentMode = .scaleAspectFit
-        awayLogoImage.layer.cornerRadius = 16
+        awayLogoImage.layer.cornerRadius = 14
         awayLogoImage.clipsToBounds = true
         
-      
-        score.font = .boldSystemFont(ofSize: 18)
-        score.textAlignment = .center
-       
+        homeScoreLabel.font = .monospacedDigitSystemFont(ofSize: 18, weight: .bold)
+        awayScoreLabel.font = .monospacedDigitSystemFont(ofSize: 18, weight: .bold)
         
-        homeTeamName.font = .systemFont(ofSize: 13)
-        awayTeamName.font = .systemFont(ofSize: 13)
+        homeTeamName.font = .systemFont(ofSize: 15, weight: .medium)
+        awayTeamName.font = .systemFont(ofSize: 15, weight: .medium)
     }
     
     func configure(with fixture: Fixture) {
         homeTeamName.text = fixture.homeTeamName
         awayTeamName.text = fixture.awayTeamName
-        score.text = "\(fixture.homeTeamScore)  -  \(fixture.awayTeamScore)"
+        
+        homeScoreLabel.text = "\(fixture.homeTeamScore)"
+        awayScoreLabel.text = "\(fixture.awayTeamScore)"
         
         homeLogoImage.sd_setImage(with: URL(string: fixture.homeTeamLogo), placeholderImage: UIImage(systemName: "sportscourt"))
         awayLogoImage.sd_setImage(with: URL(string: fixture.awayTeamLogo), placeholderImage: UIImage(systemName: "sportscourt"))
-        
-        
     }
 }
