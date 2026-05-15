@@ -19,7 +19,7 @@ final class NetworkManager {
         let cleanPath = endpoint.path.hasPrefix("/") ? String(endpoint.path.dropFirst()) : endpoint.path
         let finalURL = baseURL + cleanPath
         
-        print("🌐 Requesting URL: \(finalURL) | Params: \(endpoint.parameters)")
+        
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(finalURL, parameters: endpoint.parameters)

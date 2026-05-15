@@ -34,6 +34,8 @@
 		517231CC2FB0BEF600EBD954 /* EndpointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517231CB2FB0BEF600EBD954 /* EndpointProtocol.swift */; };
 		517231CE2FB0BF1E00EBD954 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517231CD2FB0BF1E00EBD954 /* NetworkManager.swift */; };
 		517231D02FB0BF9C00EBD954 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517231CF2FB0BF9C00EBD954 /* APIService.swift */; };
+		517497252FB7785400162F80 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517497242FB7785400162F80 /* MockNetworkService.swift */; };
+		517497272FB778F000162F80 /* MockNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517497262FB778F000162F80 /* MockNetworkServiceTests.swift */; };
 		5178F9922FAE9D6A0004FEDD /* FavEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */; };
 		517E57A02FABBB2E00A9D2ED /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E579F2FABBB2E00A9D2ED /* League.swift */; };
 		517E57A22FABBB6A00A9D2ED /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517E57A12FABBB6A00A9D2ED /* Sport.swift */; };
@@ -111,7 +113,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5128EB3D2FAA179B003FD4F6 /* Sportix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Sportix.app; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/Sportix.app"; sourceTree = "<absolute>"; };
 		5128EB402FAA179B003FD4F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5128EB422FAA179B003FD4F6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5128EB442FAA179B003FD4F6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -119,9 +120,7 @@
 		5128EB4C2FAA179D003FD4F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5128EB4F2FAA179D003FD4F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5128EB512FAA179D003FD4F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5128EB562FAA179D003FD4F6 /* SportixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SportixTests.xctest; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/SportixTests.xctest"; sourceTree = "<absolute>"; };
 		5128EB5A2FAA179D003FD4F6 /* SportixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixTests.swift; sourceTree = "<group>"; };
-		5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SportixUITests.xctest; path = "/Users/hazemabdelraouf/Desktop/Sportix/build/Debug-iphoneos/SportixUITests.xctest"; sourceTree = "<absolute>"; };
 		5128EB642FAA179D003FD4F6 /* SportixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITests.swift; sourceTree = "<group>"; };
 		5128EB662FAA179D003FD4F6 /* SportixUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportixUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		513C313D2FAE23FE008B1D96 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -140,6 +139,11 @@
 		517231CB2FB0BEF600EBD954 /* EndpointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
 		517231CD2FB0BF1E00EBD954 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		517231CF2FB0BF9C00EBD954 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		517497212FB777C700162F80 /* Sportix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sportix.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		517497222FB777C700162F80 /* SportixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		517497232FB777C700162F80 /* SportixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		517497242FB7785400162F80 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		517497262FB778F000162F80 /* MockNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkServiceTests.swift; sourceTree = "<group>"; };
 		5178F9912FAE9D6A0004FEDD /* FavEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavEntity+Mapping.swift"; sourceTree = "<group>"; };
 		517E579F2FABBB2E00A9D2ED /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		517E57A12FABBB6A00A9D2ED /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
@@ -240,6 +244,9 @@
 				5128EB3F2FAA179B003FD4F6 /* Sportix */,
 				5128EB592FAA179D003FD4F6 /* SportixTests */,
 				5128EB632FAA179D003FD4F6 /* SportixUITests */,
+				517497212FB777C700162F80 /* Sportix.app */,
+				517497222FB777C700162F80 /* SportixTests.xctest */,
+				517497232FB777C700162F80 /* SportixUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -269,6 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				5128EB5A2FAA179D003FD4F6 /* SportixTests.swift */,
+				517497242FB7785400162F80 /* MockNetworkService.swift */,
+				517497262FB778F000162F80 /* MockNetworkServiceTests.swift */,
 			);
 			path = SportixTests;
 			sourceTree = "<group>";
@@ -672,7 +681,7 @@
 				518115D52FB50A85001C2CA5 /* Lottie */,
 			);
 			productName = Sportix;
-			productReference = 5128EB3D2FAA179B003FD4F6 /* Sportix.app */;
+			productReference = 517497212FB777C700162F80 /* Sportix.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5128EB552FAA179D003FD4F6 /* SportixTests */ = {
@@ -690,7 +699,7 @@
 			);
 			name = SportixTests;
 			productName = SportixTests;
-			productReference = 5128EB562FAA179D003FD4F6 /* SportixTests.xctest */;
+			productReference = 517497222FB777C700162F80 /* SportixTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		5128EB5F2FAA179D003FD4F6 /* SportixUITests */ = {
@@ -708,7 +717,7 @@
 			);
 			name = SportixUITests;
 			productName = SportixUITests;
-			productReference = 5128EB602FAA179D003FD4F6 /* SportixUITests.xctest */;
+			productReference = 517497232FB777C700162F80 /* SportixUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -872,6 +881,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				517497272FB778F000162F80 /* MockNetworkServiceTests.swift in Sources */,
+				517497252FB7785400162F80 /* MockNetworkService.swift in Sources */,
 				5128EB5B2FAA179D003FD4F6 /* SportixTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
