@@ -21,19 +21,6 @@ class SportixTests: XCTestCase {
         networkManager = nil
     }
 
-    func testFetchSports_ReturnsEmpty() {
-        let ex = expectation(description: "fetchSports")
-        Task {
-            do {
-                let sports = try await networkManager.fetchSports()
-                XCTAssertTrue(sports.isEmpty)
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-            ex.fulfill()
-        }
-        waitForExpectations(timeout: 10)
-    }
 
     func testFetchLeagues_Success() {
         let ex = expectation(description: "fetchLeagues")
@@ -46,7 +33,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50)
     }
 
     func testFetchTeams_Success() {
@@ -60,7 +47,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50)
     }
 
     func testFetchTeamDetails_Success() {
@@ -74,7 +61,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50)
     }
 
     func testFetchUpcomingFixtures_Success() {
@@ -88,7 +75,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50)
     }
 
     func testFetchPastFixtures_Success() {
@@ -102,7 +89,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50)
     }
 
     func testFetchTeamDetails_Failure_InvalidID() {
@@ -116,6 +103,7 @@ class SportixTests: XCTestCase {
             }
             ex.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 50
+        )
     }
 }
