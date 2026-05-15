@@ -21,29 +21,52 @@ class LatestEventCell: UICollectionViewCell {
     @IBOutlet weak var awayTeamName: UILabel!
     @IBOutlet weak var awayScoreLabel: UILabel!
     
+    private let glassyView: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .systemThinMaterial)
+        let view = UIVisualEffectView(effect: blur)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.label.withAlphaComponent(0.05).cgColor
+        return view
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
     
     func setupUI() {
-        contentView.layer.cornerRadius = 12
-        contentView.clipsToBounds = true
-        contentView.backgroundColor = AppTheme.Colors.card
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        
+        contentView.insertSubview(glassyView, at: 0)
+        NSLayoutConstraint.activate([
+            glassyView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            glassyView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            glassyView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            glassyView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
         
         homeLogoImage.contentMode = .scaleAspectFit
         homeLogoImage.layer.cornerRadius = 14
         homeLogoImage.clipsToBounds = true
+        homeLogoImage.backgroundColor = .white
         
         awayLogoImage.contentMode = .scaleAspectFit
         awayLogoImage.layer.cornerRadius = 14
         awayLogoImage.clipsToBounds = true
+        awayLogoImage.backgroundColor = .white
         
-        homeScoreLabel.font = .monospacedDigitSystemFont(ofSize: 18, weight: .bold)
-        awayScoreLabel.font = .monospacedDigitSystemFont(ofSize: 18, weight: .bold)
+        homeScoreLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .bold)
+        awayScoreLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .bold)
         
-        homeTeamName.font = .systemFont(ofSize: 15, weight: .medium)
-        awayTeamName.font = .systemFont(ofSize: 15, weight: .medium)
+        homeTeamName.font = .systemFont(ofSize: 16, weight: .semibold)
+        homeTeamName.textColor = AppTheme.Colors.textPrimary
+        
+        awayTeamName.font = .systemFont(ofSize: 16, weight: .semibold)
+        awayTeamName.textColor = AppTheme.Colors.textPrimary
     }
     
     func configure(with fixture: Fixture) {
