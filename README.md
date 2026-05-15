@@ -286,10 +286,10 @@ ViewController  ──────►  Presenter
 
 ## 👨‍💻 Team
 
-| Name | Role |
-|------|------|
-| **Hazem Abdelraouf** | iOS Developer — Networking, Architecture, Splash, Repo Layer |
-| **Aalaa Adel** | iOS Developer — Design System (AppTheme), UI Components |
+| Name |
+|------|
+| **Hazem Abdelraouf** |
+| **Aalaa Adel** |
 
 ---
 
