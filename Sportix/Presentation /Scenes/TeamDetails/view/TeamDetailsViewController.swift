@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol TeamDetailsViewProtocol: AnyObject {
     func showLoading()
     func hideLoading()
@@ -35,8 +34,6 @@ final class TeamDetailsViewController: UIViewController {
         setupTableView()
         setupLoadingIndicator()
 
-       
-
         presenter.viewDidLoad()
     }
 
@@ -63,7 +60,6 @@ final class TeamDetailsViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationController?.navigationBar.tintColor = AppTheme.Colors.textPrimary
-
         navigationItem.title = ""
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -137,14 +133,26 @@ final class TeamDetailsViewController: UIViewController {
     }
 
     private func showMessageInTableBackground(_ message: String) {
+        let containerView = UIView(frame: tableView.bounds)
+        
         let label = UILabel()
         label.text = message
         label.textColor = AppTheme.Colors.textSecondary
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor, constant: 100),
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 32),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32)
+        ])
 
-        tableView.backgroundView = label
+        tableView.backgroundView = containerView
     }
 
     private func hideTableBackgroundMessage() {
@@ -170,7 +178,12 @@ extension TeamDetailsViewController: TeamDetailsViewProtocol {
     }
 
     func reloadData() {
-        hideTableBackgroundMessage()
+        if let team = presenter.getTeamDetails(), presenter.getNumberOfSections() == 1 {
+            showMessageInTableBackground("No squad details available for \(team.name).")
+        } else {
+            hideTableBackgroundMessage()
+        }
+        
         tableView.reloadData()
     }
 
@@ -179,7 +192,6 @@ extension TeamDetailsViewController: TeamDetailsViewProtocol {
         showMessageInTableBackground(message)
     }
 }
-
 
 extension TeamDetailsViewController: UITableViewDataSource, UITableViewDelegate {
 

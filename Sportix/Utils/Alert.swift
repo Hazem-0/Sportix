@@ -81,11 +81,11 @@ extension UIViewController {
               let window = windowScene.windows.first(where: { $0.isKeyWindow }) else { return }
         
         let overlayView = UIView(frame: window.bounds)
-        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        overlayView.alpha = 0
+        overlayView.backgroundColor = AppTheme.Colors.background
+        overlayView.alpha = 0.5
         
         let alertView = UIView()
-        alertView.backgroundColor = .systemBackground
+        alertView.backgroundColor = AppTheme.Colors.card
         alertView.layer.cornerRadius = 24
         alertView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -113,7 +113,7 @@ extension UIViewController {
         let cancelButton = UIButton(type: .system)
         cancelButton.setTitle(cancelTitle, for: .normal)
         cancelButton.setTitleColor(.label, for: .normal)
-        cancelButton.backgroundColor = .secondarySystemBackground
+        cancelButton.backgroundColor = AppTheme.Colors.background
         cancelButton.layer.cornerRadius = 14
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false

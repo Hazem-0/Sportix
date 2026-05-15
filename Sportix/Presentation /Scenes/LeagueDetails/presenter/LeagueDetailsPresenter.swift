@@ -5,39 +5,38 @@
 //  Created by Hazem Abdelraouf on 08/05/2026.
 //
 
+
+
 import Foundation
 
 enum LeagueDetailsSection: Int, CaseIterable {
-    case upcoming = 0
+    case teams = 0
+    case upcoming
     case latest
-    case teams
 
     var title: String {
         switch self {
+        case .teams:    return "Teams"
         case .upcoming: return "Upcoming Events"
         case .latest:   return "Latest Events"
-        case .teams:    return "Teams"
         }
     }
 }
 
 protocol LeagueDetailsPresenterProtocol: AnyObject {
     var visibleSections: [LeagueDetailsSection] { get }
-
     func upcomingEvents(for section: LeagueDetailsSection) -> [Fixture]
     func latestEvents(for section: LeagueDetailsSection) -> [Fixture]
     func teams(for section: LeagueDetailsSection) -> [TeamDetails]
     func numberOfItems(in section: LeagueDetailsSection) -> Int
-
+    func isEmpty(section: LeagueDetailsSection) -> Bool
     var isFavorite: Bool { get }
-
     func viewDidLoad()
     func toggleFavorite()
     func didSelectTeam(at index: Int)
 }
 
 class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
-
     private weak var view: LeagueDetailsViewProtocol?
     private let repo: SportixRepo
     private let league: League
@@ -47,18 +46,14 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     private var teamsData: [TeamDetails] = []
 
     var visibleSections: [LeagueDetailsSection] {
-        LeagueDetailsSection.allCases.filter { numberOfItems(in: $0) > 0 }
+        LeagueDetailsSection.allCases
     }
 
     var isFavorite: Bool {
         repo.isLeagueFavorite(id: league.id)
     }
 
-    init(
-        view: LeagueDetailsViewProtocol,
-        league: League,
-        repo: SportixRepo = SportixRepoImp()
-    ) {
+    init(view: LeagueDetailsViewProtocol, league: League, repo: SportixRepo = SportixRepoImp()) {
         self.view = view
         self.league = league
         self.repo = repo
@@ -76,7 +71,16 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         section == .teams ? teamsData : []
     }
 
+    func isEmpty(section: LeagueDetailsSection) -> Bool {
+        switch section {
+        case .teams:    return teamsData.isEmpty
+        case .upcoming: return upcomingEventsData.isEmpty
+        case .latest:   return latestEventsData.isEmpty
+        }
+    }
+
     func numberOfItems(in section: LeagueDetailsSection) -> Int {
+        if isEmpty(section: section) { return 1 }
         switch section {
         case .upcoming: return upcomingEventsData.count
         case .latest:   return latestEventsData.count
@@ -100,12 +104,11 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     }
     
     func didSelectTeam(at index: Int) {
-        
-        
         guard reachability.isConnected else {
             view?.showNoInternetAlert()
             return
         }
+        guard !isEmpty(section: .teams) else { return }
         guard index >= 0 && index < teamsData.count else { return }
         let selectedTeam = teamsData[index]
         view?.navigateToTeamDetails(sport: league.sport, teamId: selectedTeam.id)
@@ -114,6 +117,8 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     @MainActor
     private func fetchLeagueDetails() async {
         view?.showLoading()
+        view?.setFavoriteButton(enabled: false)
+        
         defer { view?.hideLoading() }
 
         do {
@@ -122,12 +127,19 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             async let leagueTeams  = repo.fetchTeams(sport: league.sport, leagueId: league.id)
 
             upcomingEventsData = try await upcoming
-            latestEventsData   = try await past
-            teamsData          = try await leagueTeams
+            
+            let fetchedPastFixtures = try await past
+            latestEventsData = fetchedPastFixtures.filter { fixture in
+                let homeScore = fixture.homeTeamScore.trimmingCharacters(in: .whitespaces)
+                let awayScore = fixture.awayTeamScore.trimmingCharacters(in: .whitespaces)
+                return !homeScore.isEmpty && !awayScore.isEmpty
+            }
+            
+            teamsData = try await leagueTeams
+            view?.setFavoriteButton(enabled: true)
         } catch {
             print(error.localizedDescription)
         }
-
         view?.reloadData()
     }
 }

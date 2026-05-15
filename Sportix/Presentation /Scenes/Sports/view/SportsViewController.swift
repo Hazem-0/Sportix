@@ -32,6 +32,19 @@ final class SportsViewController: UIViewController {
         updateThemeIcon()
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let self = self,
+                  let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+            
+            let isLandscape = size.width > size.height
+            layout.scrollDirection = isLandscape ? .horizontal : .vertical
+            layout.invalidateLayout()
+        })
+    }
+
     private func setupPresenter() {
         presenter = SportsPresenter(view: self)
     }
@@ -89,7 +102,9 @@ final class SportsViewController: UIViewController {
         collectionView.delegate = self
 
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .vertical
+            let isLandscape = view.bounds.width > view.bounds.height
+            layout.scrollDirection = isLandscape ? .horizontal : .vertical
+            
             layout.minimumLineSpacing = AppTheme.Spacing.medium
             layout.minimumInteritemSpacing = AppTheme.Spacing.medium
             layout.sectionInset = .zero
@@ -175,15 +190,24 @@ extension SportsViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        
+        let isLandscape = collectionView.bounds.width > collectionView.bounds.height
+        
+        if isLandscape {
+            let cellHeight: CGFloat = 220
+            let cellWidth: CGFloat = 200 // Fixed width for horizontal scrolling
+            return CGSize(width: cellWidth, height: cellHeight)
+            
+        } else {
+            let itemsPerRow: CGFloat = 2
+            let spacing = AppTheme.Spacing.medium
 
-        let itemsPerRow: CGFloat = 2
-        let spacing = AppTheme.Spacing.medium
+            let totalSpacing = spacing * (itemsPerRow - 1)
+            let availableWidth = collectionView.bounds.width - totalSpacing
+            let cellWidth = availableWidth / itemsPerRow
 
-        let totalSpacing = spacing * (itemsPerRow - 1)
-        let availableWidth = collectionView.bounds.width - totalSpacing
-        let cellWidth = availableWidth / itemsPerRow
-
-        return CGSize(width: cellWidth, height: 220)
+            return CGSize(width: cellWidth, height: 220)
+        }
     }
 
     func collectionView(
