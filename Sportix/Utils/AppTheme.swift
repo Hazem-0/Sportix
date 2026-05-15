@@ -33,7 +33,7 @@ enum AppTheme {
         static let card = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
             ? UIColor(red: 0.059, green: 0.090, blue: 0.165, alpha: 1.0)
-            : UIColor.white
+            : UIColor.secondarySystemBackground
         }
 
         static let textPrimary = UIColor { traitCollection in
